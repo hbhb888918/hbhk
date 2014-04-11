@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hbhk.module.framework.server.context.UserConstants;
-import org.hbhk.module.framework.server.service.impl.UserCacheImpl;
+import org.hbhk.module.framework.server.service.IUserService;
 import org.hbhk.module.framework.shared.domain.UserEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +19,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 	public static final String PASSWORD = "password";
     public static final String remember_me ="_spring_security_remember_me";
     
-    private UserCacheImpl  userCache;
+    private IUserService  userService;
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request,
 			HttpServletResponse response) throws AuthenticationException {
@@ -37,7 +37,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 
 		// 验证用户账号与密码是否对应
         //数据库获取 TODO 
-		UserEntity users = userCache.getUser(username);
+		UserEntity users = userService.getUserByName(username);
 		//users.setPassword("135246");
 
 		if (users == null || !users.getPassword().equals(password)) {
@@ -89,14 +89,6 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 	protected String obtainPassword(HttpServletRequest request) {
 		Object obj = request.getParameter(PASSWORD);
 		return null == obj ? "" : obj.toString();
-	}
-
-	public UserCacheImpl getUserCache() {
-		return userCache;
-	}
-
-	public void setUserCache(UserCacheImpl userCache) {
-		this.userCache = userCache;
 	}
 
 	

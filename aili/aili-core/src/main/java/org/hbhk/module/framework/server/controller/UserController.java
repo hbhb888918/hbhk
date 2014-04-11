@@ -7,7 +7,6 @@ import java.util.List;
 import org.hbhk.module.framework.server.service.IUserService;
 import org.hbhk.module.framework.shared.domain.EmpEntity;
 import org.hbhk.module.framework.shared.domain.UserEntity;
-import org.hbhk.module.framework.shared.exception.CacheConfigException;
 import org.hbhk.module.framework.shared.util.MessageInfo;
 import org.hbhk.module.framework.shared.util.ModuleConstants;
 import org.springframework.stereotype.Controller;
@@ -35,10 +34,6 @@ public class UserController {
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	@ResponseBody
 	public UserEntity userList() {
-		int n   = 1;
-		if(n==1){
-			throw  new CacheConfigException("test exce");
-		}
 		UserEntity u = new UserEntity();
 		u.setUsername("e343");
 		u.setPassword("fsdfsdf");

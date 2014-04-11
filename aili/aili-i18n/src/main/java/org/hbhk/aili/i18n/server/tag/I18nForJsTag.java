@@ -1,4 +1,4 @@
-package org.hbhk.module.framework.server.tag;
+package org.hbhk.aili.i18n.server.tag;
 
 import java.io.IOException;
 
@@ -8,9 +8,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.commons.lang.StringUtils;
+import org.hbhk.aili.i18n.server.msg.MessageBundle;
+import org.hbhk.aili.i18n.server.msg.MessageCache;
 import org.hbhk.module.framework.server.context.RequestContext;
-import org.hbhk.module.framework.server.message.MessageBundle;
-import org.hbhk.module.framework.server.message.MessageCache;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 

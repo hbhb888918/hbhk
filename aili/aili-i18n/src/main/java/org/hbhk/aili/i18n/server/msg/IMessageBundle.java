@@ -1,4 +1,4 @@
-package org.hbhk.module.framework.server.message;
+package org.hbhk.aili.i18n.server.msg;
 
 import java.util.Locale;
 

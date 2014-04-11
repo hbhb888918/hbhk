@@ -1,18 +1,13 @@
 package org.hbhk.module.framework.server.controller;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.hbhk.module.framework.server.Quartz.QuartzService;
 import org.hbhk.module.framework.server.context.UserConstants;
 import org.hbhk.module.framework.server.context.UserContext;
 import org.hbhk.module.framework.server.listener.MultipleUserBindingListener;
 import org.hbhk.module.framework.server.service.IUserService;
-import org.hbhk.module.framework.shared.domain.security.UsersEntity;
-import org.hbhk.module.framework.shared.exception.CacheConfigException;
-import org.hbhk.module.framework.shared.util.Constants;
 import org.hbhk.module.framework.shared.util.ModuleConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;

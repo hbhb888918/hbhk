@@ -1,4 +1,4 @@
-package org.hbhk.module.framework.server.message;
+package org.hbhk.aili.i18n.server.msg;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.module.framework.server.cache.CacheSupport;
+import org.hbhk.aili.cache.server.CacheSupport;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 

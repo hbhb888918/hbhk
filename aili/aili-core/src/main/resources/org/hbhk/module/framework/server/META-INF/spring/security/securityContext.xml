@@ -53,7 +53,7 @@
 		<beans:property name="authenticationSuccessHandler" ref="loginLogAuthenticationSuccessHandler"/>
 		<beans:property name="authenticationFailureHandler" ref="simpleUrlAuthenticationFailureHandler"/>
 		<beans:property name="authenticationManager" ref="authenticationManager"/>
-		<beans:property name="userCache" ref="userCache"/>
+		<beans:property name="userService" ref="userService"/>
 	</beans:bean>
 
 	<beans:bean id="loginLogAuthenticationSuccessHandler"
