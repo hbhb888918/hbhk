@@ -1,4 +1,4 @@
-package org.hbhk.aili.cache;
+package org.hbhk.aili.cache.share;
 
 /**
  * Hello world!
