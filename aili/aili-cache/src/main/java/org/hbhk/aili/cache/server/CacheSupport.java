@@ -23,6 +23,7 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 
 	@Override
 	public V get(String key) {
+		LOG.info(key);
 		if (!cacheTemplet.isExitKey(key)) {
 			V v = doSet(key);
 			set(key, v);

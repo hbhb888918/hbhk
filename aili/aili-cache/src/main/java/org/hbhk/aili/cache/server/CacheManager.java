@@ -17,6 +17,7 @@ public final class CacheManager {
 	/**
 	 * 保存所有缓存实例
 	 */
+	@SuppressWarnings("rawtypes")
 	private final Map<String, ICache> uuidCaches = new ConcurrentHashMap<String, ICache>();
 
 	/**
@@ -56,6 +57,7 @@ public final class CacheManager {
 	 * @throws Exception 
 	 * @since:
 	 */
+	@SuppressWarnings("unchecked")
 	public <K,V> ICache<K, V> getCache(String cacheId) throws Exception {
 		ICache<K, V> cache = uuidCaches.get(cacheId);
 		if (cache == null) {
@@ -72,6 +74,7 @@ public final class CacheManager {
 	 * @throws Exception 
 	 * @see
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public <T> T getCache(Class t,String cacheId) throws Exception {
 		try {
 			return (T) getCache(cacheId);
