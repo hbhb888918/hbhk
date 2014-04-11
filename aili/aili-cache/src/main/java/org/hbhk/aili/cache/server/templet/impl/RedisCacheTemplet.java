@@ -77,13 +77,14 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V> {
 		}
 		final String newKey = key;
 		final V newValue = value;
+		final int newexpire =expire;
 		StringRedisTemplate.execute(new RedisCallback<V>() {
 			@Override
 			public V doInRedis(RedisConnection connection)
 					throws DataAccessException {
 				// String valueStr = CacheUtils.toJsonString(newValue);
 				byte[] bs = SerializeUtil.serializeObject(newValue);
-				connection.set(newKey.getBytes(), bs);
+				connection.setEx(newKey.getBytes(),newexpire, bs);
 				return null;
 			}
 

@@ -19,7 +19,7 @@ public class TestCache {
 				"classpath:cache/**/cacheContext.xml");
 		String sss = (String) CacheManager.getInstance().getCache("hbhk")
 				.get("hebo");
-		
+		 CacheManager.getInstance().getCache("hbhk").set("hbhk1","dddd",10);
 		System.out.println(sss);
 
 	}

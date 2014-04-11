@@ -30,6 +30,11 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 		}
 		return cacheTemplet.get(key);
 	}
+	
+	@Override
+	public void set(String key, V value, int expire) {
+		cacheTemplet.set(key, value, expire);
+	}
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
