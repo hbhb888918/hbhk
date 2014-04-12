@@ -19,8 +19,9 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.TriggerBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-//@Service
+@Service
 public class QuartzService {
 
 	private static final Logger logger = Logger.getLogger(QuartzService.class);
@@ -28,7 +29,7 @@ public class QuartzService {
 	private static Map<String, String> quartzStatus = new HashMap<String, String>(10);
 
 	@Autowired
-	private QuartzDAO quartzDAO;
+	private QuartzDao quartzDao;
 
 	@Autowired
 	private Scheduler quartzScheduler;
@@ -39,7 +40,7 @@ public class QuartzService {
 	 * @return
 	 */
 	public List<QuartzEntity> getQuartzJobList() {
-		return quartzDAO.selectAllQuartJob();
+		return quartzDao.selectAllQuartJob();
 	}
 
 	/**

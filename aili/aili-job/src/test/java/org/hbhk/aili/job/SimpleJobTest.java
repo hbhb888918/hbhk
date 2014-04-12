@@ -16,6 +16,7 @@ public class SimpleJobTest {
 
 	private Log log = LogFactory.getLog(getClass());
 
+	@SuppressWarnings("resource")
 	@Test
 	public void simpleJobTest() {
 		try {
@@ -29,17 +30,22 @@ public class SimpleJobTest {
 			topicIds.add("topicId1");
 			topicIds.add("topicId2");
 			String description = "description";
-			String minutePattern = "0";
-			String hourPattern = "0";
+			String cronPattern = "0 0/1 * * * ?";
+			try {
+				Class<?> jobclass = Class
+						.forName("org.hbhk.aili.job.ParseModelJob");
+				Job jobInstance = (Job) jobclass.newInstance();
+//				quartzService.addParseModelJob(jobName, topicIds, description,
+//						cronPattern, jobInstance);
 
-			// quartzService.addParseModelJob(jobName, topicIds, description,
-			// minutePattern, hourPattern);
-			quartzService.deleteJob(jobName);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//quartzService.deleteJob(jobName);
 
 			quartzService.getQuartzJobList();
 
-			log.warn("uh oh, Job is scheduled !'" + "' Success...");
-		} catch (SchedulerException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 

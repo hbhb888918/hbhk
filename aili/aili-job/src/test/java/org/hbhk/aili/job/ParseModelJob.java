@@ -1,4 +1,4 @@
-package org.hbhk.aili.job.server;
+package org.hbhk.aili.job;
 
 import org.apache.log4j.Logger;
 import org.quartz.Job;
@@ -12,8 +12,7 @@ public class ParseModelJob implements Job {
 	@Override
 	public void execute(JobExecutionContext context)
 			throws JobExecutionException {
-		// 这里输进任务处理的内容
-		System.out.println("这里输进任务处理的内容");
+		logger.info("这里输进任务处理的内容");
 	}
 
 }

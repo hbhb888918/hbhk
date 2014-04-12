@@ -3,34 +3,26 @@ package org.hbhk.aili.job.server;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.sql.DataSource;
 
 import org.hbhk.aili.job.share.pojo.QuartzEntity;
 import org.hbhk.aili.job.share.pojo.QuartzMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 
-//@Repository
-public class QuartzDAO {
+@Repository
+public class QuartzDao {
+	private NamedParameterJdbcTemplate jdbcTemplate;
 	
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	private DataSource dataSource;
 
-	//@Autowired
-	public void setDataSource(@Qualifier("dataSource") DataSource quartzDataSource) {// 这里注明是配置文件里面的quartzDataSource数据源
-		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(quartzDataSource);
+	@Resource
+	public void setDataSource(DataSource dataSource) {
+		this.dataSource = dataSource;
+		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
 	}
-	
-//	private DataSource dataSource;
-//	
-//	@Autowired
-//	public void setDataSource(DataSource dataSource) {
-//		this.dataSource = dataSource;
-//		this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-//	}
-
 
 
 
@@ -44,6 +36,6 @@ public class QuartzDAO {
 				+ ",QRTZ_JOB_DETAILS.DESCRIPTION  DESCRIPTION from QRTZ_TRIGGERS inner join QRTZ_JOB_DETAILS "
 				+ " on QRTZ_TRIGGERS.JOB_NAME = QRTZ_JOB_DETAILS.JOB_NAME order by start_time";
 		
-		return namedParameterJdbcTemplate.query(sql,new HashMap<String, String>(), new QuartzMapper());
+		return jdbcTemplate.query(sql,new HashMap<String, String>(), new QuartzMapper());
 	}
 }
