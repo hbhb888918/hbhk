@@ -2,14 +2,6 @@ package org.hbhk.module.framework.server.exception;
 
 import java.io.Serializable;
 
-/**
- * 
- * 
-*******************************************
-* <b style="font-family:微软雅黑"><small>Description:业务异常基类</small></b>   </br>
-* <b style="font-family:微软雅黑"><small>HISTORY</small></b></br>
-* <b style="font-family:微软雅黑"><small> ID      DATE    PERSON     REASON</small></b><br>
- */
 public class BusinessException extends RuntimeException implements Serializable, IException {
 	
 	private static final long serialVersionUID = 1937263904748419090L;

@@ -1,20 +1,6 @@
 package org.hbhk.module.framework.server.exception;
 
 import org.springframework.stereotype.Component;
-
-/**
- * 
- * 
-*******************************************
-* <b style="font-family:微软雅黑"><small>Description:异常转化器</small></b>   </br>
-* <b style="font-family:微软雅黑"><small>HISTORY</small></b></br>
-* <b style="font-family:微软雅黑"><small> ID      DATE    PERSON     REASON</small></b><br>
-********************************************
-* <div style="font-family:微软雅黑,font-size:70%"> 
-* 1  2011-3-27  steven.cheng 新增
-* </div>  
-********************************************
- */
 @Component
 public class ExceptionConvert implements IExceptionConvert {
     
