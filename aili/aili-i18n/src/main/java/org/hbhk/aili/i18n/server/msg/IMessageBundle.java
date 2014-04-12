@@ -2,19 +2,6 @@ package org.hbhk.aili.i18n.server.msg;
 
 import java.util.Locale;
 
-/**
- * 
- * 
-*******************************************
-* <b style="font-family:微软雅黑"><small>Description:国际化资源接口</small></b>   </br>
-* <b style="font-family:微软雅黑"><small>HISTORY</small></b></br>
-* <b style="font-family:微软雅黑"><small> ID      DATE    PERSON     REASON</small></b><br>
-********************************************
-* <div style="font-family:微软雅黑,font-size:70%"> 
-* 1 2011-3-27 liangfei 新增
-* </div>  
-********************************************
- */
 public interface IMessageBundle {
 	/**
 	 * 根据键取得国际化资源，并格式化

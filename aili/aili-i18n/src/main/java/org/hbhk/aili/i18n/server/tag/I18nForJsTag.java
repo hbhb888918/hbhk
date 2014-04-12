@@ -31,13 +31,6 @@ public class I18nForJsTag extends SimpleTagSupport {
 
 	/**
 	 * SimpleTagSupport标签执行，调用的主方法
-	 * 调用国际化资源接口，遍历传入的国际化键的字符串，查找出每一个键对应的国际化信息，将键和国际化信息封装成一个javascript对象
-	 * ，放入到script 标签中
-	 * 
-	 * @see javax.servlet.jsp.tagext.SimpleTagSupport#doTag() doTag
-	 * @throws JspException
-	 * @throws IOException
-	 * @since JDK1.6
 	 */
 	@Override
 	public void doTag() throws JspException, IOException {
@@ -94,12 +87,6 @@ public class I18nForJsTag extends SimpleTagSupport {
 	 * <p>
 	 * 生成国际化javascript代码格式
 	 * </p>
-	 * 
-	 * @author 平台开发小组
-	 * @date 2013-4-1 上午10:53:36
-	 * @param moduleName
-	 * @param keys
-	 * @return
 	 * @see
 	 */
 	private String createI18nScript(String moduleName, String keys) {
@@ -148,12 +135,6 @@ public class I18nForJsTag extends SimpleTagSupport {
 	 * <p>
 	 * 将字符串转成字符数组
 	 * </p>
-	 * 
-	 * @author 平台开发小组
-	 * @date 2013-4-1 上午10:54:27
-	 * @param str
-	 * @return
-	 * @see
 	 */
 	private String[] parseStringToArray(String str) {
 		if (str == null) {
