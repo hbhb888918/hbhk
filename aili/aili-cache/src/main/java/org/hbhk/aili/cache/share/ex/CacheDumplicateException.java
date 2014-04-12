@@ -4,12 +4,6 @@ package org.hbhk.aili.cache.share.ex;
 
 /**
  * CacheId重复异常
- * 
- * <p style="display:none">modifyRecord</p>
- * <p style="display:none">version:V1.0,author:ningyu,date:2013-5-8 下午4:47:51,content:TODO </p>
- * @date 2013-5-8 下午4:47:51
- * @since
- * @version
  */
 public class CacheDumplicateException extends GeneralException {
 
