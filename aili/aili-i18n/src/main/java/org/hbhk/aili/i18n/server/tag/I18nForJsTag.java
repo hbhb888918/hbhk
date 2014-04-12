@@ -8,9 +8,9 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import org.apache.commons.lang.StringUtils;
+import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.i18n.server.msg.MessageBundle;
 import org.hbhk.aili.i18n.server.msg.MessageCache;
-import org.hbhk.module.framework.server.context.RequestContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 

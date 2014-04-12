@@ -3,12 +3,12 @@ package org.hbhk.aili.i18n.server.msg;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Properties;
-import org.hbhk.module.framework.server.context.RequestContext;
+
+import org.hbhk.aili.core.server.context.RequestContext;
 
 public class MessageBundle implements IMessageBundle {
 
 	private MessageCache messageCache;
-
 	@Override
 	public String getMessage(Locale locale, String key, Object... args) {
 		if (key == null) {
