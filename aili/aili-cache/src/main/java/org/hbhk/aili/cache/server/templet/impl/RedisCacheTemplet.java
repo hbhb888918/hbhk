@@ -70,27 +70,32 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	@Override
 	public boolean set(String key, V value, int expire) {
+        try {
+        	if (StringUtils.isBlank(key) || value == null) {
+    			LOG.error("key或value不允许为null或空串!");
+    			throw new RuntimeException("key或value不允许为null或空串!");
+    		}
+    		final String newKey = key;
+    		final V newValue = value;
+    		final int newexpire =expire;
+    		StringRedisTemplate.execute(new RedisCallback<V>() {
+    			@Override
+    			public V doInRedis(RedisConnection connection)
+    					throws DataAccessException {
+    				// String valueStr = CacheUtils.toJsonString(newValue);
+    				byte[] bs = SerializeUtil.serializeObject(newValue);
+    				connection.setEx(newKey.getBytes(),newexpire, bs);
+    				return null;
+    			}
 
-		if (StringUtils.isBlank(key) || value == null) {
-			LOG.error("key或value不允许为null或空串!");
-			throw new RuntimeException("key或value不允许为null或空串!");
+    		});
+    		return true;
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+			return false;
 		}
-		final String newKey = key;
-		final V newValue = value;
-		final int newexpire =expire;
-		StringRedisTemplate.execute(new RedisCallback<V>() {
-			@Override
-			public V doInRedis(RedisConnection connection)
-					throws DataAccessException {
-				// String valueStr = CacheUtils.toJsonString(newValue);
-				byte[] bs = SerializeUtil.serializeObject(newValue);
-				connection.setEx(newKey.getBytes(),newexpire, bs);
-				return null;
-			}
-
-		});
-
-		return false;
+		
+		
 	}
 
 	@Override

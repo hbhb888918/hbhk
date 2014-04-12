@@ -3,16 +3,24 @@ package org.hbhk.aili.cache.server.templet.impl;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
 
 public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
-
+	private static final Log LOG = LogFactory.getLog(MemoryCacheTemplet.class);
 	private Map<String, V> cache = new ConcurrentHashMap<String, V>(10000);
 
 	@Override
 	public boolean set(String key, V value) {
-		cache.put(key, value);
-		return false;
+		try {
+			cache.put(key, value);
+			return true;
+		} catch (Exception e) {
+			LOG.error(e.getMessage(), e);
+			return false;
+		}
+		
 	}
 	@Override
 	public boolean set(String key, V value, int expire) {
