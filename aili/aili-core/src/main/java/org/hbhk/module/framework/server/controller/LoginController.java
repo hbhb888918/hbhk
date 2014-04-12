@@ -38,45 +38,6 @@ public class LoginController {
 	 */
 	@RequestMapping("/login")
 	public String login() {
-		// System.out.println("login...");
-		// List<QuartzEntity> qs = quartzService.getQuartzJobList();
-		// try {
-		// quartzService.deleteJob("jobName1");
-		// } catch (SchedulerException e1) {
-		// e1.printStackTrace();
-		// }
-		// qs = quartzService.getQuartzJobList();
-		//
-		// if (CollectionUtils.isEmpty(qs)) {
-		// String jobName = "jobName1";
-		// List<String> topicIds = new ArrayList<String>();
-		// topicIds.add("topicId1");
-		// topicIds.add("topicId2");
-		// String description = "description";
-		// String cronPattern = "0 0/1 * * * ?";
-		// try {
-		// Class<?> jobclass = Class
-		// .forName("org.hbhk.module.framework.server.Quartz.ParseModelJob");
-		// Class<?>[] superclass = jobclass.getInterfaces();
-		// boolean jobFlag = false;
-		// for (int i = 0; i < superclass.length; i++) {
-		// Class<?> class1 = superclass[i];
-		// if (class1.equals(Job.class) && class1 == Job.class) {
-		// jobFlag = true;
-		// break;
-		// }
-		// }
-		// if (jobFlag) {
-		// Job jobInstance = (Job) jobclass.newInstance();
-		// quartzService.addParseModelJob(jobName, topicIds,
-		// description, cronPattern, jobInstance);
-		// }
-		//
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// }
-
 		return "/login";
 	}
 
