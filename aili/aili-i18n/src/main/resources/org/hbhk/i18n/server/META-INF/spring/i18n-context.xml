@@ -22,8 +22,6 @@
 	</bean>
 	<bean id="messageCache" class="org.hbhk.aili.i18n.server.msg.MessageCache"
 		init-method="doInitialization">
-		<property name="cacheSupport" ref="cacheSupport" />
-		<property name="cacheSupportI18nKeys" ref="cacheSupport" />
 	</bean>
 
 </beans>
