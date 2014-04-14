@@ -3,6 +3,7 @@ package org.hbhk.aili.cache.server.templet.impl;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
@@ -14,6 +15,9 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	@Override
 	public boolean set(String key, V value) {
 		try {
+			if(StringUtils.isEmpty(key)){
+				throw new RuntimeException("key不允许为null或空串!");
+			}
 			cache.put(key, value);
 			return true;
 		} catch (Exception e) {
@@ -34,12 +38,18 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	@Override
 	public void remove(String key) {
+		if(StringUtils.isEmpty(key)){
+			throw new RuntimeException("key不允许为null或空串!");
+		}
 		cache.remove(key);
 
 	}
 
 	@Override
 	public void removeMulti(String... keys) {
+		if(keys==null || keys.length==0){
+			throw new RuntimeException("key不允许为null或空串!");
+		}
 		for (String key : keys) {
 			cache.remove(key);
 		}
@@ -63,6 +73,9 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	@Override
 	public boolean isExitKey(String key) {
+		if(StringUtils.isEmpty(key)){
+			throw new RuntimeException("key不允许为null或空串!");
+		}
 		return cache.containsKey(key);
 	}
 
