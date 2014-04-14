@@ -21,7 +21,7 @@ public class QuartzDao {
 	@Resource
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
-		this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+		this.jdbcTemplate = new NamedParameterJdbcTemplate(this.dataSource);
 	}
 
 
