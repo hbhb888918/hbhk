@@ -15,15 +15,15 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 public class MessageCache {
 
-	public static final String UUID = "MessageCache";
+	public static final String CACHEID = "messageCache";
 	public static final String I18NKEYS = "i18nkeys";
 	private Log logger = LogFactory.getLog(MessageCache.class);
 
-	private ICacheTemplet<String, Properties> cacheSupport;
+	private ICacheTemplet<String, Map<String, Properties>> cacheSupport;
 //	private ICacheTemplet<String, String> cacheSupportI18nKeys;
 
 	public MessageCache() {
-		cacheSupport = new MemoryCacheTemplet<Properties>();
+		cacheSupport = new MemoryCacheTemplet<Map<String, Properties>>();
 		//cacheSupportI18nKeys = new MemoryCacheTemplet<String>();
 	}
 	public void doInitialization() {
@@ -33,7 +33,7 @@ public class MessageCache {
 			PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 			Resource[] resources = resolver.getResources("classpath*:" + prefix
 					+ "**/server/META-INF/messages/message*.properties");
-			Properties properties = new Properties();
+			//Properties properties = new Properties();
 			Map<String, Properties> map = new HashMap<String, Properties>();
 			for (Resource resource : resources) {
 				String path = resource.getURL().getPath();
@@ -52,7 +52,7 @@ public class MessageCache {
 					Properties p = new Properties();
 					p.load(in);
 					map.put(moduleName, p);
-					properties.putAll(map);
+				//	properties.putAll(map);
 				//	cacheSupportI18nKeys.set(moduleName + I18NKEYS,
 				//			convertI18nKeys(p));
 
@@ -61,7 +61,7 @@ public class MessageCache {
 				}
 
 			}
-			cacheSupport.set(UUID, properties);
+			cacheSupport.set(CACHEID, map);
 
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
@@ -69,11 +69,11 @@ public class MessageCache {
 	}
 
 	public String getCacheId() {
-		return UUID;
+		return CACHEID;
 	}
 
-	public Properties getI18nProperties(String key) {
-		return cacheSupport.get(key);
+	public Properties getI18nProperties(String moduleName) {
+		return cacheSupport.get(CACHEID).get(moduleName);
 	}
 
 //	public String getI18nKeys(String key) {

@@ -20,8 +20,7 @@ public class MessageBundle implements IMessageBundle {
 			return null;
 		}
 		String moduleName = RequestContext.getCurrentContext().getModuleName();
-		Properties properties = (Properties) messageCache.getI18nProperties(
-				MessageCache.UUID).get(moduleName);
+		Properties properties = messageCache.getI18nProperties(moduleName);
 		if (locale == null) {
 			// 没有传入locale的用服务器系统默认的locale
 			locale = Locale.getDefault();
