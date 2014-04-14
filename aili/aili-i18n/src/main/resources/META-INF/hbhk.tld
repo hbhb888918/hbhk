@@ -7,7 +7,7 @@
 	<uri>/hbhk</uri>
 	<tag>
 		<name>module</name>
-			<tag-class>org.hbhk.module.framework.server.tag.I18nForJsTag</tag-class>
+			<tag-class>org.hbhk.aili.i18n.server.tag.I18nForJsTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>groups</name>
@@ -20,7 +20,7 @@
 	</tag>
 	<tag>
 		<name>i18nForJsp</name>
-		<tag-class>org.hbhk.module.framework.server.tag.I18nForJspTag</tag-class>
+		<tag-class>org.hbhk.aili.i18n.server.tag.I18nForJspTag</tag-class>
 		<body-content>empty</body-content>
 		<attribute>
 			<name>key</name>
