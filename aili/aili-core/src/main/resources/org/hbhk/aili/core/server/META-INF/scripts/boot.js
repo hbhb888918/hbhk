@@ -24,9 +24,8 @@
 var bootPATH = __CreateJSPath("boot.js");
 //debugger
 mini_debugger = true;   
-//miniui
+//jquery
 document.write('<script src="' + bootPATH + 'jquery-1.9.1.js" type="text/javascript"></sc' + 'ript>');
-document.write('<script src="' + bootPATH + 'ui/js/jquery-ui.min.js" type="text/javascript"></sc' + 'ript>');
 //common
 document.write('<script src="' + bootPATH + 'comm/common.js" type="text/javascript"></sc' + 'ript>');
 //base64
