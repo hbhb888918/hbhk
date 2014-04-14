@@ -7,7 +7,7 @@
 		</layout>
 	</appender>
 	<appender name="FILE" class="org.apache.log4j.RollingFileAppender">
-		<param name="file" value="${user.home}/foss-framework.log" />
+		<param name="file" value="${user.home}/aili.log" />
 		<param name="append" value="true" />
 		<param name="maxFileSize" value="10MB" />
 		<param name="maxBackupIndex" value="100" />
@@ -16,7 +16,7 @@
 		</layout>
 	</appender>
 	<logger name="jdbc.sqltiming">         
-		<level value="INFO" />     
+		<level value="ERROR" />     
 	</logger>
 	<logger name="jdbc.connection">         
 		<level value="ERROR" />     
