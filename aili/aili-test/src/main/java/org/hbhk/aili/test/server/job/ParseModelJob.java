@@ -1,4 +1,4 @@
-package org.hbhk.test.server.job;
+package org.hbhk.aili.test.server.job;
 
 import org.apache.log4j.Logger;
 import org.quartz.Job;
