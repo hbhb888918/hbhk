@@ -49,15 +49,7 @@ public class I18nForJsTag extends SimpleTagSupport {
 
 
 	/**
-	 * 
-	 * <p>
 	 * 生成模块javascript代码格式
-	 * </p>
-	 * @author 平台开发小组
-	 * @date 2013-4-1 上午10:51:56
-	 * @param moduleName
-	 * @return
-	 * @see
 	 */
 	private String createModuleScript(String moduleName) {
 		String appcontext = ((PageContext)this.getJspContext()).getServletContext().getContextPath();
@@ -83,11 +75,7 @@ public class I18nForJsTag extends SimpleTagSupport {
 	}
 
 	/**
-	 * 
-	 * <p>
 	 * 生成国际化javascript代码格式
-	 * </p>
-	 * @see
 	 */
 	private String createI18nScript(String moduleName, String keys) {
 		if (StringUtils.isBlank(keys)) {

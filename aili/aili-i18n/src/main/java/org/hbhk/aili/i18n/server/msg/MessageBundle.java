@@ -1,13 +1,17 @@
 package org.hbhk.aili.i18n.server.msg;
 
+import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.server.context.RequestContext;
 
 public class MessageBundle implements IMessageBundle {
 
+	private  Log  log = LogFactory.getLog(getClass());
 	private MessageCache messageCache;
 	@Override
 	public String getMessage(Locale locale, String key, Object... args) {
@@ -21,7 +25,12 @@ public class MessageBundle implements IMessageBundle {
 			locale = Locale.getDefault();
 		}
 		if (properties != null) {
-			String value = properties.getProperty(key, key);
+			String value = key;
+			try {
+				value = new String(properties.getProperty(key, key).getBytes("ISO8859-1"),"UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				log.error(e.getMessage(), e);
+			}
 			if (!value.equals(key)) {
 				// 格式化
 				return (args == null || args.length == 0) ? value

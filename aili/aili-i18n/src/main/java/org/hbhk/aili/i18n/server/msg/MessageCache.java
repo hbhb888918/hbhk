@@ -40,9 +40,9 @@ public class MessageCache {
 				String path = resource.getURL().getPath();
 				String classpath = path.substring(path.lastIndexOf(prefix));
 				if (logger.isInfoEnabled()) {
-					logger.info("[Framework] add message bundle: " + classpath);
+					logger.info("message bundle: " + classpath);
 				}
-				String subStr = "module/";
+				String subStr = "aili/";
 				String moduleStr = classpath.substring(
 						classpath.indexOf(subStr) + subStr.length(),
 						classpath.length());
