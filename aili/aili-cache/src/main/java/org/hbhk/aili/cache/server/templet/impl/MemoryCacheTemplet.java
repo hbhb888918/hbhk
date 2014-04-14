@@ -15,7 +15,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	@Override
 	public boolean set(String key, V value) {
 		try {
-			if(StringUtils.isEmpty(key)){
+			if (StringUtils.isEmpty(key)) {
 				throw new RuntimeException("key不允许为null或空串!");
 			}
 			cache.put(key, value);
@@ -24,8 +24,9 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 			LOG.error(e.getMessage(), e);
 			return false;
 		}
-		
+
 	}
+
 	@Override
 	public boolean set(String key, V value, int expire) {
 		return false;
@@ -37,22 +38,11 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	}
 
 	@Override
-	public void remove(String key) {
-		if(StringUtils.isEmpty(key)){
+	public void invalid(String key) {
+		if (StringUtils.isEmpty(key)) {
 			throw new RuntimeException("key不允许为null或空串!");
 		}
 		cache.remove(key);
-
-	}
-
-	@Override
-	public void removeMulti(String... keys) {
-		if(keys==null || keys.length==0){
-			throw new RuntimeException("key不允许为null或空串!");
-		}
-		for (String key : keys) {
-			cache.remove(key);
-		}
 
 	}
 
@@ -73,10 +63,21 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	@Override
 	public boolean isExitKey(String key) {
-		if(StringUtils.isEmpty(key)){
+		if (StringUtils.isEmpty(key)) {
 			throw new RuntimeException("key不允许为null或空串!");
 		}
 		return cache.containsKey(key);
+	}
+
+	@Override
+	public void invalid(String... keys) {
+		if (keys == null || keys.length == 0) {
+			throw new RuntimeException("key不允许为null或空串!");
+		}
+		for (String key : keys) {
+			cache.remove(key);
+		}
+
 	}
 
 }

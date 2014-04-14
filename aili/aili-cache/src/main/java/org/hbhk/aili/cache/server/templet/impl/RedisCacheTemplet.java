@@ -70,45 +70,39 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	@Override
 	public boolean set(String key, V value, int expire) {
-        try {
-        	if (StringUtils.isBlank(key) || value == null) {
-    			LOG.error("key或value不允许为null或空串!");
-    			throw new RuntimeException("key或value不允许为null或空串!");
-    		}
-    		final String newKey = key;
-    		final V newValue = value;
-    		final int newexpire =expire;
-    		StringRedisTemplate.execute(new RedisCallback<V>() {
-    			@Override
-    			public V doInRedis(RedisConnection connection)
-    					throws DataAccessException {
-    				// String valueStr = CacheUtils.toJsonString(newValue);
-    				byte[] bs = SerializeUtil.serializeObject(newValue);
-    				connection.setEx(newKey.getBytes(),newexpire, bs);
-    				return null;
-    			}
+		try {
+			if (StringUtils.isBlank(key) || value == null) {
+				LOG.error("key或value不允许为null或空串!");
+				throw new RuntimeException("key或value不允许为null或空串!");
+			}
+			final String newKey = key;
+			final V newValue = value;
+			final int newexpire = expire;
+			StringRedisTemplate.execute(new RedisCallback<V>() {
+				@Override
+				public V doInRedis(RedisConnection connection)
+						throws DataAccessException {
+					// String valueStr = CacheUtils.toJsonString(newValue);
+					byte[] bs = SerializeUtil.serializeObject(newValue);
+					connection.setEx(newKey.getBytes(), newexpire, bs);
+					return null;
+				}
 
-    		});
-    		return true;
+			});
+			return true;
 		} catch (Exception e) {
 			LOG.error(e.getMessage(), e);
 			return false;
 		}
-		
-		
-	}
-
-	@Override
-	public void remove(String key) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void removeMulti(String... keys) {
+	public void invalid(String key) {
 		// TODO Auto-generated method stub
 
 	}
+
 
 	@Override
 	public boolean set(Map<String, V> values) {
@@ -124,7 +118,24 @@ public class RedisCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	@Override
 	public long ttl(String key) {
-		return 0;
+		if (StringUtils.isBlank((java.lang.String) key)) {
+			LOG.error("key不允许为null或空串!");
+			throw new RuntimeException("key不允许为null或空串!");
+		}
+		final String newKey = key;
+		Long ttl = StringRedisTemplate.execute(new RedisCallback<Long>() {
+			@Override
+			public Long doInRedis(RedisConnection connection)
+					throws DataAccessException {
+				Long obj = 0L;
+				if (connection.exists(newKey.getBytes())) {
+					obj = connection.ttl(newKey.getBytes());
+				}
+				return obj;
+			}
+		});
+
+		return ttl;
 	}
 
 	@Override

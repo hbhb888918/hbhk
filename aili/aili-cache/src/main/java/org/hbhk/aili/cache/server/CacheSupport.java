@@ -3,6 +3,7 @@ package org.hbhk.aili.cache.server;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
+import org.springframework.dao.DataAccessResourceFailureException;
 
 /**
  * 提供支持缓存类
@@ -12,29 +13,41 @@ import org.hbhk.aili.cache.server.templet.ICacheTemplet;
  */
 public abstract class CacheSupport<V> extends CacheBase<String, V> {
 
-	private static final Log LOG = LogFactory.getLog(CacheSupport.class);
+	private static final Log log = LogFactory.getLog(CacheSupport.class);
 
 	private ICacheTemplet<String, V> cacheTemplet;
 	private int expire;
 
 	@Override
 	public void set(String key, V value) {
-		if (expire > 0) {
-			cacheTemplet.set(key, value, expire);
-		} else {
-			cacheTemplet.set(key, value);
+		try {
+			if (expire > 0) {
+				cacheTemplet.set(key, value, expire);
+			} else {
+				cacheTemplet.set(key, value);
+			}
+		} catch (DataAccessResourceFailureException e) {
+			log.warn(e.getMessage(), e);
 		}
+
 	}
 
 	@Override
 	public V get(String key) {
-		LOG.info(key);
-		if (!cacheTemplet.isExitKey(key)) {
-			V v = doSet(key);
-			set(key, v);
-			return v;
+		V v = null;
+		try {
+			log.info(key);
+			if (!cacheTemplet.isExitKey(key)) {
+				v = doSet(key);
+				set(key, v);
+				return v;
+			} else {
+				v = cacheTemplet.get(key);
+			}
+		} catch (DataAccessResourceFailureException e) {
+			log.warn(e.getMessage(), e);
 		}
-		return cacheTemplet.get(key);
+		return v;
 	}
 
 	@Override
@@ -44,7 +57,12 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 
 	@Override
 	public void invalid(String... keys) {
-		cacheTemplet.removeMulti(keys);
+		try {
+			cacheTemplet.invalid(keys);
+		} catch (DataAccessResourceFailureException e) {
+			log.warn(e.getMessage(), e);
+		}
+		
 	}
 
 	public void setCacheTemplet(ICacheTemplet<String, V> cacheTemplet) {

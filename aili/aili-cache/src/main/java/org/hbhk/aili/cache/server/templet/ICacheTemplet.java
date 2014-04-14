@@ -10,9 +10,9 @@ public interface ICacheTemplet<K, V> {
 
 	V get(K key);
 
-	void remove(K key);
+	void invalid(K key);
 
-	void removeMulti(K... keys);
+	void invalid(K... keys);
 
 	boolean set(Map<K, V> values);
 
