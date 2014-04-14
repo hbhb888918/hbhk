@@ -8,7 +8,6 @@ import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.job.server.QuartzService;
 import org.junit.Test;
 import org.quartz.Job;
-import org.quartz.SchedulerException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -30,13 +29,13 @@ public class SimpleJobTest {
 			topicIds.add("topicId1");
 			topicIds.add("topicId2");
 			String description = "description";
-			String cronPattern = "0 0/1 * * * ?";
+			String cronPattern = "0/10 * * * * ?";
 			try {
 				Class<?> jobclass = Class
 						.forName("org.hbhk.aili.job.ParseModelJob");
 				Job jobInstance = (Job) jobclass.newInstance();
-//				quartzService.addParseModelJob(jobName, topicIds, description,
-//						cronPattern, jobInstance);
+				quartzService.addParseModelJob(jobName, topicIds, description,
+						cronPattern, jobInstance);
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -54,20 +53,28 @@ public class SimpleJobTest {
 	public static void main(String[] args) {
 
 		try {
+			ApplicationContext context = new ClassPathXmlApplicationContext(
+					"classpath:job/jobContext.xml");
 
-			Class<?> jobclass = Class
-					.forName("org.hbhk.aili.job.server.ParseModelJob");
-			System.out.println(jobclass);
-			Class<?>[] superclass = jobclass.getInterfaces();
-			for (int i = 0; i < superclass.length; i++) {
-				Class<?> class1 = superclass[i];
-				if (class1.equals(Job.class) && class1 == Job.class) {
-					System.out.println(class1);
-					break;
-				}
+			QuartzService quartzService = (QuartzService) context
+					.getBean("quartzService");
+			//Thread.sleep(20000);
+			//System.out.println("delete");
+			//quartzService.deleteJob("jobName");
 
-			}
-			System.out.println("sssssssssss");
+//			Class<?> jobclass = Class
+//					.forName("org.hbhk.aili.job.server.ParseModelJob");
+//			System.out.println(jobclass);
+//			Class<?>[] superclass = jobclass.getInterfaces();
+//			for (int i = 0; i < superclass.length; i++) {
+//				Class<?> class1 = superclass[i];
+//				if (class1.equals(Job.class) && class1 == Job.class) {
+//					System.out.println(class1);
+//					break;
+//				}
+//
+//			}
+//			System.out.println("sssssssssss");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
