@@ -19,7 +19,7 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 
 	@Override
 	public void set(String key, V value) {
-		if (expire != 0) {
+		if (expire > 0) {
 			cacheTemplet.set(key, value, expire);
 		} else {
 			cacheTemplet.set(key, value);
