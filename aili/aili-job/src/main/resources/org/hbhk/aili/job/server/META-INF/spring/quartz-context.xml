@@ -11,11 +11,16 @@
           http://www.springframework.org/schema/context/spring-context-3.0.xsd    
           http://www.springframework.org/schema/aop    
           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-	
-	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-		<property name="dataSource" ref="dataSource"/>
+
+	<bean name="quartzScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
 		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
-		<property name="configLocation" value="classpath:org/hbhk/aili/job/server/META-INF/springquartz.properties" />
+		<property name="configLocation"
+			value="classpath:org/hbhk/aili/job/server/META-INF/spring/quartz.properties" />
 	</bean>
-  
+<!-- 	<bean id="quartzService" class="org.hbhk.aili.job.server.QuartzService"> -->
+<!-- 		<property name="quartzScheduler" ref="quartzScheduler"/> -->
+<!-- 	</bean> -->
+
 </beans>  

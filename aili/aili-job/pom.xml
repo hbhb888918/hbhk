@@ -10,7 +10,6 @@
 	</parent>
 	<artifactId>aili-job</artifactId>
 	<name>aili-job</name>
-	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>

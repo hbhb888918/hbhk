@@ -30,9 +30,9 @@ public class QuartzService {
 
 	@Autowired
 	private QuartzDao quartzDao;
-
-	@Autowired
-	private Scheduler quartzScheduler;
+	
+    @Autowired
+	private Scheduler quartzScheduler; // quartzScheduler
 
 	/**
 	 * 查询所有定时任务信息

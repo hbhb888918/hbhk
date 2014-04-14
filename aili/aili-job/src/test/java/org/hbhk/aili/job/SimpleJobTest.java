@@ -58,6 +58,7 @@ public class SimpleJobTest {
 
 			QuartzService quartzService = (QuartzService) context
 					.getBean("quartzService");
+			System.out.println(quartzService);
 			//Thread.sleep(20000);
 			//System.out.println("delete");
 			//quartzService.deleteJob("jobName");
