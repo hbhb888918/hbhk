@@ -34,8 +34,6 @@ public interface ICache<K, V> {
 	 * @return 缓存Value
 	 */
 	void set(K key, V value);
-	
-	void set(K key, V value,int expire);
 
 	// /**
 	// * 一次性取出所有内容

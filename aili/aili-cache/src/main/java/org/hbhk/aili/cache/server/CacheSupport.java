@@ -15,10 +15,15 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 	private static final Log LOG = LogFactory.getLog(CacheSupport.class);
 
 	private ICacheTemplet<String, V> cacheTemplet;
+	private int expire;
 
 	@Override
 	public void set(String key, V value) {
-		cacheTemplet.set(key, value);
+		if (expire != 0) {
+			cacheTemplet.set(key, value, expire);
+		} else {
+			cacheTemplet.set(key, value);
+		}
 	}
 
 	@Override
@@ -30,11 +35,6 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 			return v;
 		}
 		return cacheTemplet.get(key);
-	}
-	
-	@Override
-	public void set(String key, V value, int expire) {
-		cacheTemplet.set(key, value, expire);
 	}
 
 	@Override
@@ -49,6 +49,14 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 
 	public void setCacheTemplet(ICacheTemplet<String, V> cacheTemplet) {
 		this.cacheTemplet = cacheTemplet;
+	}
+
+	public int getExpire() {
+		return expire;
+	}
+
+	public void setExpire(int expire) {
+		this.expire = expire;
 	}
 
 }
