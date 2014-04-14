@@ -1,6 +1,9 @@
 package org.hbhk.aili.cache.server.templet.impl;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
@@ -9,8 +12,17 @@ import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
 
 public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
-	private static final Log LOG = LogFactory.getLog(MemoryCacheTemplet.class);
+	private static final Log log = LogFactory.getLog(MemoryCacheTemplet.class);
 	private Map<String, V> cache = new ConcurrentHashMap<String, V>(10000);
+
+	private Timer ttlTimer;
+
+	private volatile Map<String, TimerTask> ttlMap;
+
+	public MemoryCacheTemplet() {
+		ttlTimer = new Timer();
+		ttlMap = new HashMap<String, TimerTask>();
+	}
 
 	@Override
 	public boolean set(String key, V value) {
@@ -21,7 +33,7 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 			cache.put(key, value);
 			return true;
 		} catch (Exception e) {
-			LOG.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			return false;
 		}
 
@@ -29,7 +41,22 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	@Override
 	public boolean set(String key, V value, int expire) {
-		return false;
+		try {
+			TimerTask task = ttlMap.get(key);
+			if (task != null) {
+				task.cancel();
+				task = null;
+			}
+			task = new TTlTimerTask(key);
+			ttlTimer.schedule(task, expire * 1000);
+			cache.put(key, value);
+			return true;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return false;
+		}
+		
+	
 	}
 
 	@Override
@@ -76,6 +103,23 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 		}
 		for (String key : keys) {
 			cache.remove(key);
+		}
+
+	}
+
+	class TTlTimerTask extends TimerTask {
+
+		private String key;
+
+		public TTlTimerTask(String key) {
+			super();
+			this.key = key;
+		}
+
+		@Override
+		public void run() {
+			log.debug("[" + this.key + "]已经失效");
+			invalid(this.key);
 		}
 
 	}
