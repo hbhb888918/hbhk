@@ -11,15 +11,17 @@ import org.hbhk.aili.core.server.context.RequestContext;
 
 public class MessageBundle implements IMessageBundle {
 
-	private  Log  log = LogFactory.getLog(getClass());
+	private Log log = LogFactory.getLog(getClass());
 	private MessageCache messageCache;
+
 	@Override
 	public String getMessage(Locale locale, String key, Object... args) {
 		if (key == null) {
 			return null;
 		}
-		String  moduleName = RequestContext.getCurrentContext().getModuleName();
-		Properties properties = (Properties) messageCache.getI18nProperties(MessageCache.UUID).get(moduleName);
+		String moduleName = RequestContext.getCurrentContext().getModuleName();
+		Properties properties = (Properties) messageCache.getI18nProperties(
+				MessageCache.UUID).get(moduleName);
 		if (locale == null) {
 			// 没有传入locale的用服务器系统默认的locale
 			locale = Locale.getDefault();
@@ -27,7 +29,8 @@ public class MessageBundle implements IMessageBundle {
 		if (properties != null) {
 			String value = key;
 			try {
-				value = new String(properties.getProperty(key, key).getBytes("ISO8859-1"),"UTF-8");
+				value = new String(properties.getProperty(key, key).getBytes(
+						"ISO8859-1"), "UTF-8");
 			} catch (UnsupportedEncodingException e) {
 				log.error(e.getMessage(), e);
 			}
@@ -42,9 +45,9 @@ public class MessageBundle implements IMessageBundle {
 
 	}
 
-	public String getI18nKeys(String key) {
-		return messageCache.getI18nKeys(key);
-	}
+	// public String getI18nKeys(String key) {
+	// return messageCache.getI18nKeys(key);
+	// }
 	@Override
 	public String getMessage(String key, Object... args) {
 

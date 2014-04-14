@@ -2,7 +2,6 @@ package org.hbhk.aili.i18n.server.msg;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -21,11 +20,11 @@ public class MessageCache {
 	private Log logger = LogFactory.getLog(MessageCache.class);
 
 	private ICacheTemplet<String, Properties> cacheSupport;
-	private ICacheTemplet<String, String> cacheSupportI18nKeys;
+//	private ICacheTemplet<String, String> cacheSupportI18nKeys;
 
 	public MessageCache() {
 		cacheSupport = new MemoryCacheTemplet<Properties>();
-		cacheSupportI18nKeys = new MemoryCacheTemplet<String>();
+		//cacheSupportI18nKeys = new MemoryCacheTemplet<String>();
 	}
 	public void doInitialization() {
 		final String prefix = "org/hbhk/";
@@ -54,8 +53,8 @@ public class MessageCache {
 					p.load(in);
 					map.put(moduleName, p);
 					properties.putAll(map);
-					cacheSupportI18nKeys.set(moduleName + I18NKEYS,
-							convertI18nKeys(p));
+				//	cacheSupportI18nKeys.set(moduleName + I18NKEYS,
+				//			convertI18nKeys(p));
 
 				} finally {
 					in.close();
@@ -77,18 +76,18 @@ public class MessageCache {
 		return cacheSupport.get(key);
 	}
 
-	public String getI18nKeys(String key) {
-		return cacheSupportI18nKeys.get(key);
-	}
+//	public String getI18nKeys(String key) {
+//		return cacheSupportI18nKeys.get(key);
+//	}
 
-	@SuppressWarnings("rawtypes")
-	private String convertI18nKeys(Properties pros) {
-		Enumeration enumeration = pros.propertyNames();
-		StringBuffer keys = new StringBuffer();
-		while (enumeration.hasMoreElements()) {
-			String key = (String) enumeration.nextElement() + ",";
-			keys.append(key);
-		}
-		return keys.toString();
-	}
+//	@SuppressWarnings("rawtypes")
+//	private String convertI18nKeys(Properties pros) {
+//		Enumeration enumeration = pros.propertyNames();
+//		StringBuffer keys = new StringBuffer();
+//		while (enumeration.hasMoreElements()) {
+//			String key = (String) enumeration.nextElement() + ",";
+//			keys.append(key);
+//		}
+//		return keys.toString();
+//	}
 }

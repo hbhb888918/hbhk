@@ -1,6 +1,7 @@
 package org.hbhk.aili.i18n.server.tag;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
@@ -10,16 +11,15 @@ import javax.servlet.jsp.tagext.SimpleTagSupport;
 import org.apache.commons.lang.StringUtils;
 import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.i18n.server.msg.MessageBundle;
-import org.hbhk.aili.i18n.server.msg.MessageCache;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
 
 public class I18nForJsTag extends SimpleTagSupport {
 
 	private MessageBundle messageBundle;
 	private String subModule;
 	private String groups;
+
 	@Override
 	public void setJspContext(JspContext pc) {
 		super.setJspContext(pc);
@@ -35,24 +35,30 @@ public class I18nForJsTag extends SimpleTagSupport {
 	@Override
 	public void doTag() throws JspException, IOException {
 		String moduleName = RequestContext.getCurrentContext().getModuleName();
-		//String[] groupArray = parseStringToArray(groups);
+		// String[] groupArray = parseStringToArray(groups);
 
-		String keys = messageBundle.getI18nKeys(moduleName+MessageCache.I18NKEYS);
+		// String keys =
+		// messageBundle.getI18nKeys(moduleName+MessageCache.I18NKEYS);
+
+		Map<String, String> tags = TagsCache.getInstance().getTagesInfo(
+				moduleName);
+		String keys = tags.get("keys");
 		getJspContext().getOut().write(createModuleScript(moduleName));
-		getJspContext().getOut().write(createI18nScript(moduleName,keys));
-//		if(groupArray.length!=0){
-//			for(String group : groupArray){
-//				getJspContext().getOut().write(createWroResourceUrl(moduleName, group));
-//			}
-//		}
+		getJspContext().getOut().write(createI18nScript(moduleName, keys));
+		// if(groupArray.length!=0){
+		// for(String group : groupArray){
+		// getJspContext().getOut().write(createWroResourceUrl(moduleName,
+		// group));
+		// }
+		// }
 	}
-
 
 	/**
 	 * 生成模块javascript代码格式
 	 */
 	private String createModuleScript(String moduleName) {
-		String appcontext = ((PageContext)this.getJspContext()).getServletContext().getContextPath();
+		String appcontext = ((PageContext) this.getJspContext())
+				.getServletContext().getContextPath();
 		StringBuilder msgObject = new StringBuilder("");
 		msgObject.append("<script type='text/javascript'> \n");
 		msgObject.append("if(typeof ").append(moduleName)
@@ -60,9 +66,7 @@ public class I18nForJsTag extends SimpleTagSupport {
 				.append("={};\n").append("}");
 		msgObject.append("\n").append(moduleName)
 				.append(".realPath = function (path) { \n");
-		msgObject.append("return '")
-				.append(appcontext)
-				.append("/");
+		msgObject.append("return '").append(appcontext).append("/");
 		msgObject.append(moduleName).append("/' + ").append("path;\n");
 		msgObject.append("};\n");
 		if (subModule != null) {
@@ -152,7 +156,5 @@ public class I18nForJsTag extends SimpleTagSupport {
 	public void setGroups(String groups) {
 		this.groups = groups;
 	}
-	
-	
 
 }
