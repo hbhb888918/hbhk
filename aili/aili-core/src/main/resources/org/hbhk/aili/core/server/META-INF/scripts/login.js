@@ -7,9 +7,9 @@ $(function() {
 			validateCode:"required"
 			},
 			messages:{
-				username:framework.hbhk.i18n('hbhk.user.inputusername'),
-				password:framework.hbhk.i18n('hbhk.user.inputpass'),
-				validateCode:framework.hbhk.i18n('hbhk.user.inputcode')
+				username:core.hbhk.i18n('hbhk.user.inputusername'),
+				password:core.hbhk.i18n('hbhk.user.inputpass'),
+				validateCode:core.hbhk.i18n('hbhk.user.inputcode')
 		    }
 		});
 		
