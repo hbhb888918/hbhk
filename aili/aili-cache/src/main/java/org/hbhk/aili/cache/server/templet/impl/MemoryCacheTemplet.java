@@ -89,7 +89,11 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 
 	@Override
 	public long ttl(String key) {
-		return 0;
+		TimerTask task = ttlMap.get(key);
+		if(task==null){
+			return 0 ;
+		}
+		return task.scheduledExecutionTime();
 	}
 
 	@Override
