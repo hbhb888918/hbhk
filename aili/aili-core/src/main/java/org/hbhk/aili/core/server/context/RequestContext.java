@@ -15,7 +15,6 @@ public final class RequestContext {
             return new RequestContext();
         }
     };
-	
 	//远程调用请求的方法名称和url
 	private String remoteReqMethod;
 	
@@ -50,21 +49,11 @@ public final class RequestContext {
 	public String getIp() {
         return this.ip;
     }
-
-	/**
-	 * 
-	 * @return
-	 */
 	public static RequestContext getCurrentContext() {
 		return context.get();
 
 	}
 
-	/**
-	 * 
-	 * @param remoteReqMethod
-	 * @param remoteReqURL
-	 */
 	public static void setCurrentContext(String remoteReqMethod,String remoteReqURL) {
 	    setCurrentContext(remoteReqMethod,remoteReqURL,null);
 	}
@@ -74,21 +63,10 @@ public final class RequestContext {
         requestContext.remoteReqURL = remoteReqURL;
         requestContext.ip = ip;
 	}
-	/**
-	 * 
-	 * @param moduleName
-	 */
 	public static void setCurrentContext(String moduleName) {
 		RequestContext requestContext = getCurrentContext();
 		requestContext.moduleName = moduleName;
 	}
-	
-	/**
-	 * 清楚ThreadLocal
-	 * remove
-	 * @return void
-	 * @since:
-	 */
 	public static void remove(){	
 	    context.remove();
 	}
