@@ -2,9 +2,11 @@ package org.hbhk.aili.cache.server.templet.impl;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -15,12 +17,14 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 	private static final Log log = LogFactory.getLog(MemoryCacheTemplet.class);
 	private Map<String, V> cache = new ConcurrentHashMap<String, V>(10000);
 
-	private Timer ttlTimer;
+	// private Timer ttlTimer;
+	private ScheduledExecutorService scheduledExecutor = Executors
+			.newScheduledThreadPool(5);
 
 	private volatile Map<String, TimerTask> ttlMap;
 
 	public MemoryCacheTemplet() {
-		ttlTimer = new Timer();
+		// ttlTimer = new Timer();
 		ttlMap = new HashMap<String, TimerTask>();
 	}
 
@@ -48,15 +52,15 @@ public class MemoryCacheTemplet<V> implements ICacheTemplet<String, V> {
 				task = null;
 			}
 			task = new TTlTimerTask(key);
-			ttlTimer.schedule(task, expire * 1000);
+			// ttlTimer.schedule(task, expire * 1000);
 			cache.put(key, value);
+			scheduledExecutor.schedule(task, expire, TimeUnit.SECONDS);
 			return true;
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			return false;
 		}
-		
-	
+
 	}
 
 	@Override
