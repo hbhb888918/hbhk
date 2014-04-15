@@ -91,7 +91,7 @@
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
 		<init-param>
 			<param-name>configProviders</param-name>
-			<param-value>org.hbhk.module.framework.server.deploy.struts.ModuleConfigProvider</param-value>
+			<param-value>org.hbhk.aili.core.server.deploy.struts.ModuleConfigProvider</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>
