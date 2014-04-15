@@ -13,7 +13,7 @@
     	    	
  -->   
     	<interceptors>
-    	    <interceptor name="module" class="org.hbhk.module.framework.server.deploy.struts.ModuleInterceptor"/>
+    	    <interceptor name="module" class="org.hbhk.aili.core.server.deploy.struts.ModuleInterceptor"/>
     		<!-- <interceptor name="error" class="com.deppon.foss.framework.server.web.interceptor.ExceptionInterceptor"/>
     		<interceptor name="security" class="com.deppon.foss.framework.server.web.interceptor.SecurityInterceptor"/>
     		<interceptor name="json" class="com.deppon.foss.framework.server.web.interceptor.JSONInterceptor"/> -->
