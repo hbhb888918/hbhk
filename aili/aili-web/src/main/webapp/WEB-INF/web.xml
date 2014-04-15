@@ -6,8 +6,7 @@
 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring.xml,classpath*:org/hbhk/**/server/META-INF/spring/**/*context.xml,
-		classpath*:org/hbhk/**/server/META-INF/spring.xml</param-value>
+		<param-value>/WEB-INF/spring.xml,classpath*:org/hbhk/**/server/META-INF/spring.xml</param-value>
 	</context-param>
 
 	<!--spring log4j -->
