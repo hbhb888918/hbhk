@@ -32,12 +32,6 @@ public class UserContext {
 	public static UserContext getCurrentContext() {
 		return context.get();
 	}
-	/**
-	 * 清楚ThreadLocal
-	 * remove
-	 * @return void
-	 * @since:
-	 */
 	public static void remove(){	
 	    context.remove();
 	}
