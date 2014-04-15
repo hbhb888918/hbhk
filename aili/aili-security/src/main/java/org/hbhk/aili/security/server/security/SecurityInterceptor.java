@@ -2,10 +2,7 @@ package org.hbhk.aili.security.server.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
-import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -20,10 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.core.server.context.UserConstants;
-import org.hbhk.aili.core.server.service.IUserService;
-import org.hbhk.aili.core.share.domain.security.ResourcesEntity;
-import org.hbhk.aili.core.share.domain.security.RolesEntity;
-import org.hbhk.aili.core.share.domain.security.UsersEntity;
+import org.hbhk.aili.security.server.service.IUserService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -34,22 +28,8 @@ public class SecurityInterceptor implements Filter {
 
 	private Log log = LogFactory.getLog(getClass());
 	private UrlPathHelper urlPathHelper = new UrlPathHelper();
-	private Properties groupMappings;
 	private IUserService userService;
-
-	private String lookupGroup(String url) {
-		groupMappings = new Properties();
-		// none
-		groupMappings.put("/core/userLogin", "none");
-		groupMappings.put("/core/login", "none");
-		groupMappings.put("/core/validateCode", "none");
-		groupMappings.put("/core/authorizeError", "none");
-		groupMappings.put("/core/logout", "none");
-		groupMappings.put("/getInfoService", "none");
-		String group = groupMappings.getProperty(url);
-		return group;
-	}
-
+	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		ApplicationContext ctx = WebApplicationContextUtils
@@ -61,20 +41,9 @@ public class SecurityInterceptor implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-
 		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-
-		String urlcontext = httpServletRequest.getRequestURI();
-		String contextName = httpServletRequest.getContextPath();
-		urlcontext = urlcontext.substring(urlcontext.indexOf(contextName)
-				+ contextName.length(), urlcontext.length());
 		// 用户请求URL
 		String url = urlPathHelper.getLookupPathForRequest(httpServletRequest);
-		if (url.startsWith("/resource") || urlcontext.startsWith("/service")) {
-			chain.doFilter(request, response);
-			return;
-		}
-
 		// 使用req对象获取RequestDispatcher对象
 		RequestDispatcher dispatcher = httpServletRequest
 				.getRequestDispatcher("/core/login");
@@ -86,9 +55,8 @@ public class SecurityInterceptor implements Filter {
 		} else {
 			loginUser = username;
 		}
-
 		if (StringUtils.isEmpty(username)) {
-
+			//得到application验证用户登录次数
 			ServletContext application = httpServletRequest.getSession()
 					.getServletContext();
 			List<String> countStr = (List<String>) application
@@ -100,13 +68,10 @@ public class SecurityInterceptor implements Filter {
 					if (user.equals(loginUser)) {
 						log.info("username:" + user);
 						userCount.add(user);
-
 					}
 				}
 			}
-			Integer count = (Integer) application
-					.getAttribute(UserConstants.USER_LOGIN_COUNT);
-
+			Integer count = (Integer) application.getAttribute(UserConstants.USER_LOGIN_COUNT);
 			if (userCount.size() > 0 && count != null
 					&& userCount.size() >= count) {
 				dispatcher = httpServletRequest
@@ -116,12 +81,15 @@ public class SecurityInterceptor implements Filter {
 				dispatcher.forward(request, response);
 				return;
 			}
-
 		}
-
-		String group = lookupGroup(url);
-		boolean ok = true;
-		if (StringUtils.isEmpty(group)) {
+		
+		boolean group = userService.validate(url);
+		// 请求的资源不需要保护.
+		if (group == false) {
+			chain.doFilter(request, response);
+			return;
+		}
+		if (group == true) {
 			if (StringUtils.isEmpty(username)) {
 				try {
 					request.setAttribute("errorMsg", "你还没有登录");
@@ -131,40 +99,19 @@ public class SecurityInterceptor implements Filter {
 					log.warn("forward", e);
 				}
 			}
-			UsersEntity users = userService.queryUsers(loginUser);
-			Set<RolesEntity> roles = users.getRoles();
-			for (Iterator<RolesEntity> iterator = roles.iterator(); iterator
-					.hasNext() && ok;) {
-				RolesEntity rolesEntity = iterator.next();
-				Set<ResourcesEntity> resources = rolesEntity.getResources();
-				for (Iterator<ResourcesEntity> iterator2 = resources.iterator(); iterator2
-						.hasNext() && ok;) {
-					ResourcesEntity resourcesEntity = (ResourcesEntity) iterator2
-							.next();
-					String surl = resourcesEntity.getUrl();
-					log.info("surl:" + surl);
-					if (surl.equals(url)) {
-						ok = false;
-					}
-
-				}
-			}
-			if (ok) {
+			boolean uurl = userService.validate(url, username);
+			if (!uurl) {
 				dispatcher = httpServletRequest
 						.getRequestDispatcher("/core/authorizeError");
 				request.setAttribute("errorMsg", "请求的URL不存在或没有权限访问!");
 				dispatcher.forward(request, response);
 				return;
+			} else {
+				dispatcher.forward(request, response);
+				return;
 			}
 		}
 
-		// 找出资源所需要的权限, 即组名
-		if (!StringUtils.isEmpty(group) && group.equals("none")) {
-			// 所请求的资源不需要保护.
-			chain.doFilter(request, response);
-			return;
-		}
-		chain.doFilter(request, response);
 	}
 
 	@Override

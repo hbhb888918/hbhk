@@ -6,30 +6,24 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.hbhk.aili.core.server.data.AiliSqlSessionDaoSupport;
-import org.hbhk.aili.security.server.dao.IUserDao;
-import org.hbhk.aili.security.share.pojo.UserInfo;
+import org.hbhk.aili.security.server.dao.IRoleDao;
+import org.hbhk.aili.security.share.pojo.RoleInfo;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserDao extends AiliSqlSessionDaoSupport implements IUserDao {
-
-	private final String NAMESPACE = "aili.user.";
+public class RoleDao extends AiliSqlSessionDaoSupport implements IRoleDao {
+	private final String NAMESPACE = "aili.role.";
 
 	@Override
-	public UserInfo getMe(String username) {
+	public RoleInfo getRole(String code) {
 		Map<String, Object> parameter = new HashMap<String, Object>();
-		parameter.put("username", username);
-		List<UserInfo> userInfos = getSqlSession().selectList(
+		parameter.put("code", code);
+		List<RoleInfo> userInfos = getSqlSession().selectList(
 				NAMESPACE + "getMe", parameter);
 		if (CollectionUtils.isEmpty(userInfos)) {
 			return null;
 		}
 		return userInfos.get(0);
-	}
-
-	@Override
-	public UserInfo login(String username, String password) {
-		return null;
 	}
 
 }
