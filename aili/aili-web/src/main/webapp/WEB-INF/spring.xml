@@ -24,7 +24,7 @@
 		<property name="resourceRef" value="true" />
 	</bean>
 
-<!-- com.atomikos.jdbc.AtomikosDataSourceBean  -->
+	<!-- com.atomikos.jdbc.AtomikosDataSourceBean -->
 	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
 		<constructor-arg ref="dataSourceSpied" />
 	</bean>
@@ -34,12 +34,13 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	
+
 	<aop:config>
-		<aop:advisor pointcut="execution(* org.hbhk.aili.*.server.service.*Service.*(..))"
+		<aop:advisor
+			pointcut="execution(* org.hbhk.aili.*.server.service.*Service.*(..))"
 			advice-ref="txAdvice" />
 	</aop:config>
-	
+
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="get*" read-only="true" />
@@ -49,30 +50,48 @@
 			<tx:method name="*" rollback-for="Exception" />
 		</tx:attributes>
 	</tx:advice>
-	
+
 	<!-- 事务注解支持 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
-	
+
 	<!-- myBatis文件 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="mapperLocations"
-			value="classpath*:org/hbhk/**/META-INF/orm/*.xml" />
+		<property name="mapperLocations" value="classpath*:org/hbhk/**/META-INF/orm/*.xml" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
-	<context:annotation-config />
-	
+
 	<!-- 自动扫描组件，这里要把web下面的 controller去除，他们是在spring3-servlet.xml中配置的，如果不去除会影响事务管理的。 -->
 	<context:component-scan base-package="org.hbhk">
 		<context:exclude-filter type="regex"
 			expression="org.hbhk.*.*.server.controller.*" />
 	</context:component-scan>
-	
-<!-- 	<bean name="quartzScheduler" -->
-<!-- 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> -->
-<!-- 		<property name="dataSource" ref="dataSource" /> -->
-<!-- 		<property name="applicationContextSchedulerContextKey" value="applicationContext" /> -->
-<!-- 		<property name="configLocation" -->
-<!-- 			value="classpath:org/hbhk/aili/job/server/META-INF/spring/quartz.properties" /> -->
-<!-- 	</bean> -->
+
+	<!-- 验证码 -->
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+		<property name="config">
+			<bean class="com.google.code.kaptcha.util.Config">
+				<constructor-arg>
+					<props>
+						<prop key="kaptcha.border">no</prop>
+						<prop key="kaptcha.border.color">105,179,90</prop>
+						<prop key="kaptcha.textproducer.font.color">red</prop>
+						<prop key="kaptcha.image.width">250</prop>
+						<prop key="kaptcha.textproducer.font.size">90</prop>
+						<prop key="kaptcha.image.height">90</prop>
+						<prop key="kaptcha.session.key">code</prop>
+						<prop key="kaptcha.textproducer.char.length">4</prop>
+						<prop key="kaptcha.textproducer.font.names">宋体,楷体,微软雅黑</prop>
+					</props>
+				</constructor-arg>
+			</bean>
+		</property>
+	</bean>
+
+	<context:component-scan base-package="org.hbhk.aili.core.server">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
 </beans>
 
