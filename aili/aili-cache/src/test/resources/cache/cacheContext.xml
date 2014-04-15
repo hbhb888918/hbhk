@@ -37,9 +37,16 @@
 	<bean id="redisCacheTemplet"
 		class="org.hbhk.aili.cache.server.templet.impl.RedisCacheTemplet">
 		<property name="StringRedisTemplate" ref="redisTemplate" />
-		</bean>
-	<bean id="cacheSupportTest" class="org.hbhk.aili.cache.server.CacheSupportTest">
+	</bean>
+	<bean id="memoryCacheTemplet"
+		class="org.hbhk.aili.cache.server.templet.impl.MemoryCacheTemplet">
+	</bean>
+	<!-- <bean id="cacheSupportTest" class="org.hbhk.aili.cache.server.CacheSupportTest">
 		<property name="cacheTemplet" ref="redisCacheTemplet" />
+	</bean> -->
+	
+	<bean id="mcacheSupportTest" class="org.hbhk.aili.cache.server.CacheSupportTest">
+		<property name="cacheTemplet" ref="memoryCacheTemplet" />
 	</bean>
 
 

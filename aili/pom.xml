@@ -13,8 +13,8 @@
 		<module>aili-i18n</module>
 		<module>aili-job</module>
 		<module>aili-web</module>
-		<module></module>
 		<module>aili-test</module>
+		<module>aili-security</module>
 	</modules>
 
 	<properties>

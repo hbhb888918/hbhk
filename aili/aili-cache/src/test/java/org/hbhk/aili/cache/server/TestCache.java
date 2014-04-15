@@ -17,9 +17,19 @@ public class TestCache {
 
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"classpath:cache/**/cacheContext.xml");
-		String sss = (String) CacheManager.getInstance().getCache("hbhk")
-				.get("hebo");
+		CacheSupportTest cacheSupportTest = (CacheSupportTest) context
+				.getBean("mcacheSupportTest");
+		cacheSupportTest.setExpire(10);
+		String sss = cacheSupportTest.get("hebo");
+		// String sss = (String) CacheManager.getInstance().getCache("hbhk")
+		// .get("hebo");
 		// CacheManager.getInstance().getCache("hbhk").set("hbhk1","dddd");
+		System.out.println(sss);
+		Thread.sleep(5000);
+		sss = cacheSupportTest.get("hebo");
+		System.out.println(sss);
+		Thread.sleep(10000);
+		sss = cacheSupportTest.get("hebo");
 		System.out.println(sss);
 
 	}
