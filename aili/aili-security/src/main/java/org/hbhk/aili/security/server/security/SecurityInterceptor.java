@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hbhk.aili.core.server.context.UserConstants;
 import org.hbhk.aili.security.server.service.IUserService;
+import org.hbhk.aili.security.share.define.UserConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -29,7 +29,7 @@ public class SecurityInterceptor implements Filter {
 	private Log log = LogFactory.getLog(getClass());
 	private UrlPathHelper urlPathHelper = new UrlPathHelper();
 	private IUserService userService;
-	
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		ApplicationContext ctx = WebApplicationContextUtils
@@ -56,7 +56,7 @@ public class SecurityInterceptor implements Filter {
 			loginUser = username;
 		}
 		if (StringUtils.isEmpty(username)) {
-			//得到application验证用户登录次数
+			// 得到application验证用户登录次数
 			ServletContext application = httpServletRequest.getSession()
 					.getServletContext();
 			List<String> countStr = (List<String>) application
@@ -71,7 +71,8 @@ public class SecurityInterceptor implements Filter {
 					}
 				}
 			}
-			Integer count = (Integer) application.getAttribute(UserConstants.USER_LOGIN_COUNT);
+			Integer count = (Integer) application
+					.getAttribute(UserConstants.USER_LOGIN_COUNT);
 			if (userCount.size() > 0 && count != null
 					&& userCount.size() >= count) {
 				dispatcher = httpServletRequest
@@ -82,7 +83,11 @@ public class SecurityInterceptor implements Filter {
 				return;
 			}
 		}
-		
+		if (StringUtils.isEmpty(username)) {
+			request.setAttribute("errorMsg", "你还没有登录");
+			dispatcher.forward(request, response);
+			return;
+		}
 		boolean group = userService.validate(url);
 		// 请求的资源不需要保护.
 		if (group == false) {
@@ -90,23 +95,15 @@ public class SecurityInterceptor implements Filter {
 			return;
 		}
 		if (group == true) {
-			if (StringUtils.isEmpty(username)) {
-				try {
-					request.setAttribute("errorMsg", "你还没有登录");
-					dispatcher.forward(request, response);
-					return;
-				} catch (Exception e) {
-					log.warn("forward", e);
-				}
-			}
 			boolean uurl = userService.validate(url, username);
-			if (!uurl) {
-				dispatcher = httpServletRequest
-						.getRequestDispatcher("/core/authorizeError");
-				request.setAttribute("errorMsg", "请求的URL不存在或没有权限访问!");
+			if (uurl) {
+
 				dispatcher.forward(request, response);
 				return;
 			} else {
+				dispatcher = httpServletRequest
+						.getRequestDispatcher("/core/authorizeError");
+				request.setAttribute("errorMsg", "请求的URL不存在或没有权限访问!");
 				dispatcher.forward(request, response);
 				return;
 			}

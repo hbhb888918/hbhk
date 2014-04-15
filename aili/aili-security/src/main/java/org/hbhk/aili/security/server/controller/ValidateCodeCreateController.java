@@ -8,8 +8,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hbhk.aili.core.server.context.UserConstants;
 import org.hbhk.aili.security.share.define.SecurityConstant;
+import org.hbhk.aili.security.share.define.UserConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
