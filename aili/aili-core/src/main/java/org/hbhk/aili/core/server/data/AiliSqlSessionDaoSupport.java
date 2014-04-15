@@ -9,7 +9,6 @@ public class AiliSqlSessionDaoSupport extends SqlSessionDaoSupport {
 	@Override
 	@Resource
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
-		// TODO Auto-generated method stub
 		super.setSqlSessionFactory(sqlSessionFactory);
 	}
 
