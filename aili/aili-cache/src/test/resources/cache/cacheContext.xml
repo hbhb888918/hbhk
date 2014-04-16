@@ -41,13 +41,13 @@
 	<bean id="memoryCacheTemplet"
 		class="org.hbhk.aili.cache.server.templet.impl.MemoryCacheTemplet">
 	</bean>
-	<!-- <bean id="cacheSupportTest" class="org.hbhk.aili.cache.server.CacheSupportTest">
+	<bean id="cacheSupportTest" class="org.hbhk.aili.cache.server.CacheSupportTest">
 		<property name="cacheTemplet" ref="redisCacheTemplet" />
-	</bean> -->
+	</bean> 
 	
-	<bean id="mcacheSupportTest" class="org.hbhk.aili.cache.server.CacheSupportTest">
+	<!-- <bean id="mcacheSupportTest" class="org.hbhk.aili.cache.server.CacheSupportTest">
 		<property name="cacheTemplet" ref="memoryCacheTemplet" />
-	</bean>
+	</bean> -->
 
 
 </beans>  
