@@ -1,7 +1,8 @@
 package org.hbhk.aili.cache.server;
 
 
-public class CacheSupportTest  extends  CacheSupport<String>{
+
+public class CacheSupportTest  extends  CacheSupport<RoleInfo>{
 
 	@Override
 	public String getCacheId() {
@@ -10,8 +11,12 @@ public class CacheSupportTest  extends  CacheSupport<String>{
 	}
 
 	@Override
-	public String doSet(String key) {
-		return "hebo";
+	public RoleInfo doSet(String key) {
+		
+		RoleInfo   r = new RoleInfo();
+		r.setCode("asdas");
+		r.setId("sdfdsf");;
+		return r;
 	}
 
 }
