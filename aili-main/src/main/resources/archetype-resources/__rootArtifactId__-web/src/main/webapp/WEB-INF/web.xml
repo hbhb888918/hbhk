@@ -41,15 +41,14 @@
 	<listener>
 		<listener-class>org.hbhk.aili.core.server.listener.AppContextListener</listener-class>
 	</listener>
-
-	<!-- 模块管理器 -->
+	<!-- 权限拦截器 -->
 	<filter>
-		<filter-name>frameworkFilter</filter-name>
-		<filter-class>org.hbhk.aili.core.server.deploy.FrameworkFilter</filter-class>
+		<filter-name>securityInterceptor</filter-name>
+		<filter-class>org.hbhk.aili.security.server.security.SecurityInterceptor</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>frameworkFilter</filter-name>
-		<url-pattern>/</url-pattern>
+		<filter-name>securityInterceptor</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
 	<filter>
