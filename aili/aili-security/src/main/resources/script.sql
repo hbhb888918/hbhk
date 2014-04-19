@@ -1,5 +1,5 @@
 
---用户表Users
+   -- 用户表Users
     CREATE TABLE t_aili_user (
        id varchar(255) PRIMARY KEY,
        -- 账号是否有限 1. 是 0.否
@@ -12,7 +12,7 @@
      
     );
  
-   --角色表Roles
+   -- 角色表Roles
    CREATE TABLE t_aili_role (
      id varchar(255) PRIMARY KEY ,
      enable char(1),
@@ -21,12 +21,12 @@
     
    );
  
-   3--用户_角色表users_roles
+   -- 用户_角色表users_roles
    CREATE TABLE t_aili_user_role (
      id varchar(255) PRIMARY KEY ,
-     --用户表的外键
+     -- 用户表的外键
      ucode varchar(255),
-     --角色表的外键
+     -- 角色表的外键
      rcode varchar(255)
    );
  
@@ -47,7 +47,7 @@
      
    );
  
-   --角色_资源表roles_resources
+   -- 角色_资源表roles_resources
     CREATE TABLE t_aili_role_resource(
       id varchar(255) PRIMARY KEY ,
       rocode varchar(255),
