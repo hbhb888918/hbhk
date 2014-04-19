@@ -23,7 +23,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring-version>3.2.3.RELEASE</spring-version>
 		<security-version>3.1.4.RELEASE</security-version>
-		<struts-version>2.2.1.1</struts-version>
+		<struts-version>2.3.15.1</struts-version>
 		<jpa-version>1.0</jpa-version>
 		<javassist-version>3.12.1.GA</javassist-version>
 		<java-version>1.6</java-version>
@@ -321,16 +321,6 @@
 			<!-- 缓存 end -->
 			<!-- struts2 lib -->
 			<dependency>
-				<groupId>ognl</groupId>
-				<artifactId>ognl</artifactId>
-				<version>3.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.freemarker</groupId>
-				<artifactId>freemarker</artifactId>
-				<version>2.3.16</version>
-			</dependency>
-			<dependency>
 				<groupId>org.apache.struts</groupId>
 				<artifactId>struts2-core</artifactId>
 				<version>${struts-version}</version>
@@ -345,6 +335,13 @@
 				<artifactId>struts2-convention-plugin</artifactId>
 				<version>${struts-version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.struts</groupId>
+				<artifactId>struts2-junit-plugin</artifactId>
+				<version>${struts-version}</version>
+				<scope>test</scope>
+			</dependency>
+			<!-- struts2 lib end -->
 			<dependency>
 				<groupId>javax.persistence</groupId>
 				<artifactId>persistence-api</artifactId>
