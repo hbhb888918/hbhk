@@ -4,11 +4,6 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring.xml,classpath*:org/hbhk/**/server/META-INF/spring.xml</param-value>
-	</context-param>
-
 	<!--spring log4j -->
 	<context-param>
 		<param-name>webAppRootKey</param-name>
@@ -28,11 +23,13 @@
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
-	<!-- 默认的spring配置文件是在WEB-INF下的applicationContext.xml -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring.xml,classpath*:org/hbhk/**/server/META-INF/spring.xml</param-value>
+	</context-param>
 	<listener>
 		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
 	</listener>
@@ -48,7 +45,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>securityInterceptor</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>*.ctrl</url-pattern>
 	</filter-mapping>
 
 	<filter>
