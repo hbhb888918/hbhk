@@ -15,6 +15,7 @@
 		<module>aili-web</module>
 		<module>aili-test</module>
 		<module>aili-security</module>
+		<module>aili-orm</module>
 	</modules>
 
 	<properties>
