@@ -46,7 +46,7 @@ public class SecurityInterceptor implements Filter {
 		String url = urlPathHelper.getLookupPathForRequest(httpServletRequest);
 		// 使用req对象获取RequestDispatcher对象
 		RequestDispatcher dispatcher = httpServletRequest
-				.getRequestDispatcher("/core/login");
+				.getRequestDispatcher("/security/login");
 		String username = (String) httpServletRequest.getSession()
 				.getAttribute(UserConstants.CURRENT_USER_NAME);
 		String loginUser = null;
@@ -76,7 +76,7 @@ public class SecurityInterceptor implements Filter {
 			if (userCount.size() > 0 && count != null
 					&& userCount.size() >= count) {
 				dispatcher = httpServletRequest
-						.getRequestDispatcher("/core/authorizeError");
+						.getRequestDispatcher("/security/authorizeError");
 				request.setAttribute("errorMsg", "你(" + loginUser
 						+ ")已经在别处登录,服务器只允许" + count + "次登录!");
 				dispatcher.forward(request, response);
@@ -102,7 +102,7 @@ public class SecurityInterceptor implements Filter {
 				return;
 			} else {
 				dispatcher = httpServletRequest
-						.getRequestDispatcher("/core/authorizeError");
+						.getRequestDispatcher("/security/authorizeError");
 				request.setAttribute("errorMsg", "请求的URL不存在或没有权限访问!");
 				dispatcher.forward(request, response);
 				return;
