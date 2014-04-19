@@ -18,15 +18,11 @@ public class AppContextListener implements ServletContextListener {
 		return servletContext;
 	}
 
-	public static void getServletContext(ServletContextEvent config) {
-		servletContext = config.getServletContext();
-	}
-
 	public void contextInitialized(ServletContextEvent sce) {
 		sce.getServletContext().setAttribute("appcontext",
 				sce.getServletContext().getContextPath());
 		log.info("appcontext:" + sce.getServletContext().getContextPath());
-		getServletContext(sce);
+		servletContext = sce.getServletContext();
         ModuleManager.export(servletContext);
 	}
 
