@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.config.StrutsXmlConfigurationProvider;
+import org.hbhk.aili.core.server.listener.AppContextListener;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -31,7 +32,7 @@ public class ModuleConfigProvider implements ConfigurationProvider {
 
 	public ModuleConfigProvider() {
 		try {
-			ServletContext servletContext = FrameworkFilter.getServletContext();
+			ServletContext servletContext = AppContextListener.getServletContext();
 			//查找指定位置的struts配置文件
 			Resource[] resources = 
 					resolver.getResources("classpath*:com/deppon/**/server/META-INF/struts.xml");
