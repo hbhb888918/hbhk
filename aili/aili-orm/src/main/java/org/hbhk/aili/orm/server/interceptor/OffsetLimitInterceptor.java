@@ -20,21 +20,7 @@ import org.hbhk.aili.orm.share.util.PropertiesHelper;
 
 /**
  * 为ibatis3提供基于方言(Dialect)的分页查询的插件
- * 
  * 将拦截Executor.query()方法实现分页方言的插入.
- * 
- * 配置文件内容:
- * 
- * <pre>
- * 	&lt;plugins>
- * 	&lt;plugin interceptor="cn.org.rapid_framework.ibatis3.plugin.OffsetLimitInterceptor">
- * 		&lt;property name="dialectClass" value="cn.org.rapid_framework.jdbc.dialect.MySQLDialect"/>
- * 	&lt;/plugin>
- * &lt;/plugins>
- * </pre>
- * 
- * @author badqiu
- * 
  */
 
 @Intercepts({ @Signature(type = Executor.class, method = "query", args = { MappedStatement.class, Object.class,
@@ -43,7 +29,7 @@ public class OffsetLimitInterceptor implements Interceptor {
     private static int mappedStatementIndex = 0;
     private static int parameterIndex = 1;
     private static int rowboundsIndex = 2;
-    private static int resultHandlerIndex = 3;
+  //  private static int resultHandlerIndex = 3;
 
     // 设置方言
     private Dialect dialect;
