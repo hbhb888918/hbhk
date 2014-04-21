@@ -288,6 +288,11 @@
 				<version>10.2.0.4.0</version> </dependency> -->
 			<!-- 数据源jar -->
 			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+				<version>1.6.1</version>
+			</dependency>
+			<dependency>
 				<groupId>org.lazyluke</groupId>
 				<artifactId>log4jdbc-remix</artifactId>
 				<version>0.2.7</version>
