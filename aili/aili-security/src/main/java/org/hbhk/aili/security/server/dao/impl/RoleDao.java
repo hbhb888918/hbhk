@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.ibatis.session.RowBounds;
 import org.hbhk.aili.core.server.data.AiliSqlSessionDaoSupport;
 import org.hbhk.aili.security.server.dao.IRoleDao;
 import org.hbhk.aili.security.share.pojo.RoleInfo;

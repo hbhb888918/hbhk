@@ -17,6 +17,11 @@ public class UserController {
 	@RequestMapping("/login")
 	public String login(String username , String password){
 		userService.login(username, password);
+		return "redirect:"+SecurityConstant.moduleName+"/main.ctrl";
+	}
+	
+	@RequestMapping("/main")
+	public String main(){
 		return "main";
 	}
 
