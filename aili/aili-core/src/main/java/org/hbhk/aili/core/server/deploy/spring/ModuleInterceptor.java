@@ -18,11 +18,12 @@ public class ModuleInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		
+
 		if (!(handler instanceof HandlerMethod)) {
 			return;
 		}
-		HandlerMethod m =(HandlerMethod) handler;;
+		HandlerMethod m = (HandlerMethod) handler;
+		;
 		RequestMapping requestMapping = m.getBean().getClass()
 				.getAnnotation(RequestMapping.class);
 		String contextPath = request.getContextPath() + "/";
@@ -56,12 +57,16 @@ public class ModuleInterceptor extends HandlerInterceptorAdapter {
 		}
 		RequestContext.setCurrentContext(moduleName.substring(
 				moduleName.indexOf("/") + 1, moduleName.length()));
-		request.setAttribute("images", contextPath
-				+ ResourceRoot.resourcePrefix + "/images" + moduleName);
-		request.setAttribute("scripts", contextPath
-				+ ResourceRoot.resourcePrefix + "/scripts" + moduleName);
-		request.setAttribute("styles", contextPath
-				+ ResourceRoot.resourcePrefix + "/styles" + moduleName);
+		// request.setAttribute("images", contextPath
+		// + ResourceRoot.resourcePrefix + "/images" + moduleName);
+		// request.setAttribute("scripts", contextPath
+		// + ResourceRoot.resourcePrefix + "/scripts" + moduleName);
+		// request.setAttribute("styles", contextPath
+		// + ResourceRoot.resourcePrefix + "/styles" + moduleName);
+
+		request.setAttribute("images", contextPath + "/images" + moduleName);
+		request.setAttribute("scripts", contextPath + "/scripts" + moduleName);
+		request.setAttribute("styles", contextPath + "/styles" + moduleName);
 
 		super.postHandle(request, response, handler, modelAndView);
 	}
