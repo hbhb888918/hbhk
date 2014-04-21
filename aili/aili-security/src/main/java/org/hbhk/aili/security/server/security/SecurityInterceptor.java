@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,46 +56,12 @@ public class SecurityInterceptor implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-		String loginUser = null;
-		if (StringUtils.isEmpty(username)) {
-			loginUser = (String) httpServletRequest.getParameter("username");
-		} else {
-			loginUser = username;
-		}
-		if (StringUtils.isEmpty(username)) {
-			// 得到application验证用户登录次数
-			ServletContext application = httpServletRequest.getSession()
-					.getServletContext();
-			List<String> countStr = (List<String>) application
-					.getAttribute(UserConstants.USER_INFO_COUNT);
-			List<String> userCount = new ArrayList<String>();
-			if (!CollectionUtils.isEmpty(countStr)
-					&& !StringUtils.isEmpty(loginUser)) {
-				for (String user : countStr) {
-					if (user.equals(loginUser)) {
-						log.info("username:" + user);
-						userCount.add(user);
-					}
-				}
-			}
-			Integer count = (Integer) application
-					.getAttribute(UserConstants.USER_LOGIN_COUNT);
-			if (userCount.size() > 0 && count != null
-					&& userCount.size() >= count) {
-				dispatcher = httpServletRequest
-						.getRequestDispatcher("/security/authorizeError");
-				request.setAttribute("errorMsg", "你(" + loginUser
-						+ ")已经在别处登录,服务器只允许" + count + "次登录!");
-				dispatcher.forward(request, response);
-				return;
-			}
-		}
 		if (StringUtils.isEmpty(username)) {
 			request.setAttribute("errorMsg", "你还没有登录");
 			dispatcher.forward(request, response);
 			return;
 		}
-	
+
 		if (group == true) {
 			boolean uurl = userService.validate(url, username);
 			if (uurl) {
@@ -115,6 +82,46 @@ public class SecurityInterceptor implements Filter {
 	@Override
 	public void destroy() {
 
+	}
+
+	@SuppressWarnings("unchecked")
+	private void validateCount(HttpServletRequest request,
+			HttpServletResponse response, String username)
+			throws ServletException, IOException {
+		String loginUser = null;
+		if (StringUtils.isEmpty(username)) {
+			loginUser = (String) request.getParameter("username");
+		} else {
+			loginUser = username;
+		}
+		RequestDispatcher dispatcher = request
+				.getRequestDispatcher("/security/authorizeError.ctrl");
+		if (StringUtils.isEmpty(username)) {
+			// 得到application验证用户登录次数
+			ServletContext application = request.getSession()
+					.getServletContext();
+			List<String> countStr = (List<String>) application
+					.getAttribute(UserConstants.USER_INFO_COUNT);
+			List<String> userCount = new ArrayList<String>();
+			if (!CollectionUtils.isEmpty(countStr)
+					&& !StringUtils.isEmpty(loginUser)) {
+				for (String user : countStr) {
+					if (user.equals(loginUser)) {
+						log.info("username:" + user);
+						userCount.add(user);
+					}
+				}
+			}
+			Integer count = (Integer) application
+					.getAttribute(UserConstants.USER_LOGIN_COUNT);
+			if (userCount.size() > 0 && count != null
+					&& userCount.size() >= count) {
+				request.setAttribute("errorMsg", "你(" + loginUser
+						+ ")已经在别处登录,服务器只允许" + count + "次登录!");
+				dispatcher.forward(request, response);
+				return;
+			}
+		}
 	}
 
 }
