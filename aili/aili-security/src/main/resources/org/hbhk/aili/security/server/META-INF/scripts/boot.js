@@ -31,12 +31,12 @@ document.write('<script src="' + bootPATH + 'comm/common.js" type="text/javascri
 //base64
 document.write('<script src="' + bootPATH + 'base64.js" type="text/javascript" ></sc' + 'ript>');
 document.write('<script src="' + bootPATH + 'validateForm.js" type="text/javascript" ></sc' + 'ript>');
-document.write('<link href="' + bootPATH + 'ui/css/jquery-ui.min.css" rel="stylesheet" type="text/css" />');
+//document.write('<link href="' + bootPATH + 'ui/css/jquery-ui.min.css" rel="stylesheet" type="text/css" />');
 //skin
-var skin = getCookie("miniuiSkin");
-if (skin) {
-	document.write('<link href="' + bootPATH + 'miniui/themes/' + skin + '/skin.css" rel="stylesheet" type="text/css" />');
-}
+//var skin = getCookie("miniuiSkin");
+//if (skin) {
+//	document.write('<link href="' + bootPATH + 'miniui/themes/' + skin + '/skin.css" rel="stylesheet" type="text/css" />');
+//}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 function getCookie(sName) {
