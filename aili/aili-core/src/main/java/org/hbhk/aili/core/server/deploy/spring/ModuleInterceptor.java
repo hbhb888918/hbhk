@@ -40,11 +40,11 @@ public class ModuleInterceptor extends HandlerInterceptorAdapter {
 			}
 			
 			// request.setAttribute("images", contextPath
-			// + ResourceRoot.resourcePrefix + "/images" + moduleName);
+			// + ResourceRoot.resourcePrefix + "images" + moduleName);
 			// request.setAttribute("scripts", contextPath
-			// + ResourceRoot.resourcePrefix + "/scripts" + moduleName);
+			// + ResourceRoot.resourcePrefix + "scripts" + moduleName);
 			// request.setAttribute("styles", contextPath
-			// + ResourceRoot.resourcePrefix + "/styles" + moduleName);
+			// + ResourceRoot.resourcePrefix + "styles" + moduleName);
 
 			request.setAttribute("images", contextPath + "images" + moduleName);
 			request.setAttribute("scripts", contextPath + "scripts"
