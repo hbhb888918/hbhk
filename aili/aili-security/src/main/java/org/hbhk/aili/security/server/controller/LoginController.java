@@ -14,7 +14,7 @@ public class LoginController {
 	@Resource
 	private IUserService userService;
 
-	@RequestMapping("/login")
+	@RequestMapping("/loginpage")
 	private String login(String username, String password) {
 		userService.login(username, password);
 		return "login";

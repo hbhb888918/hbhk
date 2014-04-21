@@ -17,9 +17,15 @@
 		<security-version>3.1.4.RELEASE</security-version>
 	</properties>
 	<dependencies>
+	
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
 			<artifactId>aili-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hbhk.aili</groupId>
+			<artifactId>aili-orm</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>

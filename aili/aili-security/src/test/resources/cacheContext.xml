@@ -13,19 +13,24 @@
           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 	<context:component-scan base-package="org.hbhk.aili.security.server.dao">
 	</context:component-scan>
+	
 	<context:property-placeholder location="classpath*:jdbc.properties" />
-	<bean id="dataSource" destroy-method="close"
-	class="org.apache.commons.dbcp.BasicDataSource">
+	<bean id="dataSourceSpied" destroy-method="close"
+		class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${quartz.driverClassName}" />
 		<property name="url" value="${quartz.url}" />
 		<property name="username" value="${quartz.username}" />
 		<property name="password" value="${quartz.password}" />
 	</bean>
-	
+	<bean id="dataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSourceSpied" />
+	</bean>
+
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="mapperLocations"
-			value="classpath*:org/hbhk/**/META-INF/orm/*.xml" />
+		<property name="configLocation" value="classpath:ibatis.xml" />
+		<property name="mapperLocations" value="classpath*:org/hbhk/**/META-INF/orm/*.xml" />
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 	
+
 </beans>  
