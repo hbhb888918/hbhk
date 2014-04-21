@@ -3,6 +3,8 @@ package org.hbhk.aili.cache.server;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
+import org.hbhk.aili.cache.server.templet.impl.MemoryCacheTemplet;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 /**
@@ -14,7 +16,7 @@ import org.springframework.dao.DataAccessResourceFailureException;
 public abstract class CacheSupport<V> extends CacheBase<String, V> {
 
 	private static final Log log = LogFactory.getLog(CacheSupport.class);
-
+	
 	private ICacheTemplet<String, V> cacheTemplet;
 	private int expire;
 
@@ -52,6 +54,9 @@ public abstract class CacheSupport<V> extends CacheBase<String, V> {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		if (cacheTemplet ==null){
+			cacheTemplet = new MemoryCacheTemplet<V>();
+		}
 		CacheManager.getInstance().registerCacheProvider(this);
 	}
 
