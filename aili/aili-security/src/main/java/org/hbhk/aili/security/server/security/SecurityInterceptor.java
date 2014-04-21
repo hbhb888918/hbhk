@@ -38,7 +38,6 @@ public class SecurityInterceptor implements Filter {
 		userService = (IUserService) ctx.getBean("userService");
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
@@ -61,11 +60,9 @@ public class SecurityInterceptor implements Filter {
 			dispatcher.forward(request, response);
 			return;
 		}
-
 		if (group == true) {
-			boolean uurl = userService.validate(url, username);
-			if (uurl) {
-
+			boolean auth = userService.validate(url, username);
+			if (auth) {
 				dispatcher.forward(request, response);
 				return;
 			} else {
@@ -85,7 +82,7 @@ public class SecurityInterceptor implements Filter {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void validateCount(HttpServletRequest request,
+	public void validateCount(HttpServletRequest request,
 			HttpServletResponse response, String username)
 			throws ServletException, IOException {
 		String loginUser = null;
