@@ -14,7 +14,6 @@
 
  <div style="width: 100;" align="right"><a href="${appcontext}/framework/logout">退出</a></div>
 	<input type="text" class="datepicker" />
-   <h1><spring:message code="spring.internation"></spring:message>  </h1>
 	<ol id="selectable">
 		<li class="ui-widget-content">Item 1</li>
 		<li class="ui-widget-content">Item 2</li>
