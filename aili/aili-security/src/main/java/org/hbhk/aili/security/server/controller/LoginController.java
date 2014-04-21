@@ -1,8 +1,5 @@
 package org.hbhk.aili.security.server.controller;
 
-import javax.annotation.Resource;
-
-import org.hbhk.aili.security.server.service.IUserService;
 import org.hbhk.aili.security.share.define.SecurityConstant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,13 +8,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(SecurityConstant.moduleName)
 public class LoginController {
 
-	@Resource
-	private IUserService userService;
-
 	@RequestMapping("/loginpage")
-	private String login(String username, String password) {
-		userService.login(username, password);
-		return "login";
+	private String loginpage() {
+		return "loginpage";
+	}
+	
+	@RequestMapping("/logout")
+	private String logout() {
+		
+		return "loginpage";
 	}
 
 }

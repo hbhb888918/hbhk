@@ -46,9 +46,15 @@ public class SecurityInterceptor implements Filter {
 		String url = urlPathHelper.getLookupPathForRequest(httpServletRequest);
 		// 使用req对象获取RequestDispatcher对象
 		RequestDispatcher dispatcher = httpServletRequest
-				.getRequestDispatcher("/security/login");
+				.getRequestDispatcher("/security/loginpage.ctrl");
 		String username = (String) httpServletRequest.getSession()
 				.getAttribute(UserConstants.CURRENT_USER_NAME);
+		boolean group = userService.validate(url);
+		// 请求的资源不需要保护.
+		if (group == false) {
+			chain.doFilter(request, response);
+			return;
+		}
 		String loginUser = null;
 		if (StringUtils.isEmpty(username)) {
 			loginUser = (String) httpServletRequest.getParameter("username");
@@ -88,12 +94,7 @@ public class SecurityInterceptor implements Filter {
 			dispatcher.forward(request, response);
 			return;
 		}
-		boolean group = userService.validate(url);
-		// 请求的资源不需要保护.
-		if (group == false) {
-			chain.doFilter(request, response);
-			return;
-		}
+	
 		if (group == true) {
 			boolean uurl = userService.validate(url, username);
 			if (uurl) {

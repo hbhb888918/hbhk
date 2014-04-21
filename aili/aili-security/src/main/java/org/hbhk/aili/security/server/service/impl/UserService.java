@@ -20,13 +20,14 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public UserInfo login(String username, String password) {
+	public boolean login(String username, String password) {
 		UserInfo userInfo = userDao.login(username, password);
 		if (userInfo != null) {
 			UserContext.setCurrentUser(userInfo);
 			UserContext.setCurrentUserName(username);
+			return true;
 		}
-		return null;
+		return false;
 	}
 
 	@Override
@@ -37,6 +38,11 @@ public class UserService implements IUserService {
 	@Override
 	public boolean validate(String username, String url) {
 		return false;
+	}
+
+	@Override
+	public void logout() {
+		UserContext.remove();
 	}
 
 }

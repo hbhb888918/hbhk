@@ -40,4 +40,12 @@
 		where u.username
 		=#{username}
 	</select>
+	
+	<select id="login" resultMap="userResultMap" parameterType="map">
+		SELECT id,username,name,mail,gender
+			from t_aili_user u 
+		where u.username=#{username}
+			and u.password = #{password}
+			and u.enable = 1
+	</select>
 </mapper>

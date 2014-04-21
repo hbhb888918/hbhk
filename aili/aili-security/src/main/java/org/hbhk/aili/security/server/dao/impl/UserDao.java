@@ -29,7 +29,15 @@ public class UserDao extends AiliSqlSessionDaoSupport implements IUserDao {
 
 	@Override
 	public UserInfo login(String username, String password) {
-		return null;
+		Map<String, Object> parameter = new HashMap<String, Object>();
+		parameter.put("username", username);
+		parameter.put("password", password);
+		List<UserInfo> userInfos = getSqlSession().selectList(
+				NAMESPACE + "login", parameter);
+		if (CollectionUtils.isEmpty(userInfos)) {
+			return null;
+		}
+		return userInfos.get(0);
 	}
 
 }
