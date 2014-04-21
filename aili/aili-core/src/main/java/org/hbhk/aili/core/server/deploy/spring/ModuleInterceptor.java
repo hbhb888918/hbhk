@@ -4,8 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hbhk.aili.core.server.context.RequestContext;
-import org.hbhk.aili.core.server.context.ResourceRoot;
-import org.hbhk.aili.core.share.util.MyStringUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
@@ -23,50 +21,40 @@ public class ModuleInterceptor extends HandlerInterceptorAdapter {
 			return;
 		}
 		HandlerMethod m = (HandlerMethod) handler;
-		;
 		RequestMapping requestMapping = m.getBean().getClass()
 				.getAnnotation(RequestMapping.class);
 		String contextPath = request.getContextPath() + "/";
-		String moduleName = "";
 		if (requestMapping != null && modelAndView != null
 				&& !StringUtils.isEmpty(modelAndView.getViewName())) {
-
-			String viewName = modelAndView.getViewName();
-			if (MyStringUtils.mulStrCount(viewName, "/") > 1) {
-				if (viewName.startsWith("/")) {
-					moduleName = viewName.substring(
-							viewName.indexOf("/") + 1,
-							viewName.substring(viewName.indexOf("/") + 1,
-									viewName.length()).indexOf("/") + 1);
-				} else {
-					moduleName = viewName.substring(0, viewName.indexOf("/"));
-				}
-				modelAndView.setViewName(viewName);
-			} else {
-				String[] modules = requestMapping.value();
-				moduleName = modules[0];
-				if (viewName.startsWith("/")) {
-					viewName = viewName.substring(viewName.indexOf("/") + 1,
-							viewName.length());
-				}
-				modelAndView.setViewName(modules[0] + "/" + viewName);
+			String[] modules = requestMapping.value();
+			String moduleName = modules[0];
+			if (!moduleName.startsWith("/")) {
+				moduleName = "/" + moduleName;
 			}
-		}
-		if (!moduleName.startsWith("/")) {
-			moduleName = "/" + moduleName;
-		}
-		RequestContext.setCurrentContext(moduleName.substring(
-				moduleName.indexOf("/") + 1, moduleName.length()));
-		// request.setAttribute("images", contextPath
-		// + ResourceRoot.resourcePrefix + "/images" + moduleName);
-		// request.setAttribute("scripts", contextPath
-		// + ResourceRoot.resourcePrefix + "/scripts" + moduleName);
-		// request.setAttribute("styles", contextPath
-		// + ResourceRoot.resourcePrefix + "/styles" + moduleName);
+			String viewName = modelAndView.getViewName();
+			if (!viewName.startsWith("redirect:")) {
+				if (!viewName.startsWith("/")) {
+					viewName = "/" + viewName;
+				}
+				modelAndView.setViewName(moduleName + viewName);
+			}
+			
+			// request.setAttribute("images", contextPath
+			// + ResourceRoot.resourcePrefix + "/images" + moduleName);
+			// request.setAttribute("scripts", contextPath
+			// + ResourceRoot.resourcePrefix + "/scripts" + moduleName);
+			// request.setAttribute("styles", contextPath
+			// + ResourceRoot.resourcePrefix + "/styles" + moduleName);
 
-		request.setAttribute("images", contextPath + "/images" + moduleName);
-		request.setAttribute("scripts", contextPath + "/scripts" + moduleName);
-		request.setAttribute("styles", contextPath + "/styles" + moduleName);
+			request.setAttribute("images", contextPath + "images" + moduleName);
+			request.setAttribute("scripts", contextPath + "scripts"
+					+ moduleName);
+			request.setAttribute("styles", contextPath + "styles" + moduleName);
+			moduleName =moduleName.substring(
+					moduleName.indexOf("/") + 1, moduleName.length());
+			RequestContext.setCurrentContext(moduleName);
+
+		}
 
 		super.postHandle(request, response, handler, modelAndView);
 	}
