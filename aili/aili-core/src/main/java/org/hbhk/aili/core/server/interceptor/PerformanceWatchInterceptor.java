@@ -5,11 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.core.Ordered;
 import org.springframework.util.StopWatch;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class PerformanceWatchInterceptor extends HandlerInterceptorAdapter implements Ordered {
+public class PerformanceWatchInterceptor extends HandlerInterceptorAdapter {
 	private  Log   log =LogFactory.getLog(getClass());
 	ThreadLocal<StopWatch> stopWatchLocal = new ThreadLocal<StopWatch>();
 	private boolean usePerformance = true;
@@ -42,9 +41,5 @@ public class PerformanceWatchInterceptor extends HandlerInterceptorAdapter imple
 		}
 	}
 
-	@Override
-	public int getOrder() {
-		return 2;
-	}
 
 }
