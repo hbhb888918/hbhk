@@ -13,7 +13,6 @@ import org.hbhk.aili.security.share.pojo.ResourceInfo;
 import org.hbhk.aili.security.share.pojo.RoleInfo;
 import org.hbhk.aili.security.share.pojo.UserInfo;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
 
 @Component
 public class UserResourceCache extends CacheSupport<Set<String>> {
