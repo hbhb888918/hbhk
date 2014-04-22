@@ -35,10 +35,10 @@ public class ModuleConfigProvider implements ConfigurationProvider {
 			ServletContext servletContext = AppContextListener.getServletContext();
 			//查找指定位置的struts配置文件
 			Resource[] resources = 
-					resolver.getResources("classpath*:com/deppon/**/server/META-INF/struts.xml");
+					resolver.getResources("classpath*:org/hbhk/**/server/META-INF/struts.xml");
 			for (Resource resource : resources) {
 				String path = resource.getURL().getPath();
-				String classpath = path.substring(path.lastIndexOf("com/deppon/"));
+				String classpath = path.substring(path.lastIndexOf("org/hbhk/"));
 				if (LOGGER.isInfoEnabled()) {
 					LOGGER.info("[Framework] add action config: " + classpath);
 				}
