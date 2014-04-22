@@ -35,7 +35,7 @@
 		<appender-ref ref="CONSOLE" /> 
 	</logger>
   	<root>
-		<level value="INFO" />
+		<level value="${log4j.level}" />
 		<appender-ref ref="CONSOLE" />
 		<appender-ref ref="FILE" />
 	</root>
