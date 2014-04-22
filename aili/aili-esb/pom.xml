@@ -99,5 +99,13 @@
 			<artifactId>providerutil</artifactId>
 			<version>1.0</version>
 		</dependency>
+			<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
+			<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
 	</dependencies>
 </project>
