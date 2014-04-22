@@ -2,7 +2,9 @@ package org.hbhk.aili.security.server.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -31,6 +33,16 @@ public class SecurityInterceptor implements Filter {
 	private UrlPathHelper urlPathHelper = new UrlPathHelper();
 	private IUserService userService;
 
+	private static final String loginurl = "/security/loginpage.ctrl";
+
+	private static Set<String> notSecurityUrl = new HashSet<String>();
+	static {
+		notSecurityUrl.add(loginurl);
+		notSecurityUrl.add("/security/validateCode.ctrl");
+		notSecurityUrl.add("/security/login.ctrl");
+		
+	}
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		ApplicationContext ctx = WebApplicationContextUtils
@@ -41,37 +53,35 @@ public class SecurityInterceptor implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-		// 用户请求URL
-		String url = urlPathHelper.getLookupPathForRequest(httpServletRequest);
+		HttpServletRequest servletRequest = (HttpServletRequest) request;
+		//HttpServletResponse servletResponse = (HttpServletResponse) response;
 		// 使用req对象获取RequestDispatcher对象
-		RequestDispatcher dispatcher = httpServletRequest
-				.getRequestDispatcher("/security/loginpage.ctrl");
-		String username = (String) httpServletRequest.getSession()
-				.getAttribute(UserConstants.CURRENT_USER_NAME);
-		boolean group = userService.validate(url);
-		// 请求的资源不需要保护.
-		if (group == false) {
+		RequestDispatcher dispatcher = servletRequest
+				.getRequestDispatcher(loginurl);
+		// 用户请求URL
+		String url = urlPathHelper.getLookupPathForRequest(servletRequest);
+		if (notSecurityUrl.contains(url)) {
 			chain.doFilter(request, response);
 			return;
 		}
+		String username = (String) servletRequest.getSession().getAttribute(
+				UserConstants.CURRENT_USER_NAME);
 		if (StringUtils.isEmpty(username)) {
 			request.setAttribute("errorMsg", "你还没有登录");
 			dispatcher.forward(request, response);
 			return;
 		}
-		if (group == true) {
-			boolean auth = userService.validate(url, username);
-			if (auth) {
-				dispatcher.forward(request, response);
-				return;
-			} else {
-				dispatcher = httpServletRequest
-						.getRequestDispatcher("/security/authorizeError");
-				request.setAttribute("errorMsg", "请求的URL不存在或没有权限访问!");
-				dispatcher.forward(request, response);
-				return;
-			}
+		boolean auth = userService.validate(url, username);
+		// 是否有权限
+		if (auth == true) {
+			chain.doFilter(request, response);
+			return;
+		} else {
+			dispatcher = servletRequest
+					.getRequestDispatcher("/security/error.ctrl");
+			request.setAttribute("errorMsg", "请求的URL不存在或没有权限访问!");
+			dispatcher.forward(request, response);
+			return;
 		}
 
 	}

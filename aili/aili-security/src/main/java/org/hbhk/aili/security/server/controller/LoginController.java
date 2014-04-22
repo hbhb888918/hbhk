@@ -20,5 +20,10 @@ public class LoginController {
 		
 		return "loginpage";
 	}
+	
+	@RequestMapping("/error")
+	private String error() {
+		return "error";
+	}
 
 }
