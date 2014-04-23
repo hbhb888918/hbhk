@@ -5,8 +5,8 @@
 <link rel="shortcut icon" href="${images}/favicon.ico" />
 <link href="${styles}/login.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="${scripts}/boot.js"></script>
-<script type="text/javascript" src="${scripts}/login.js"></script>
-<hbhk:module subModule="hbhk"/>
+<%-- <script type="text/javascript" src="${scripts}/login.js"></script> --%>
+<hbhk:module subModule="hbhk" groups="loginpage"/>
 <script type="text/javascript">
 	$(function() {
 		$('#kaptchaImage').click(

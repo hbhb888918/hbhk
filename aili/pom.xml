@@ -501,5 +501,55 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>ro.isdc.wro4j</groupId>
+										<artifactId>wro4j-maven-plugin</artifactId>
+										<versionRange>[1.6.0,)</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>ro.isdc.wro4j</groupId>
+					<artifactId>wro4j-maven-plugin</artifactId>
+					<version>1.6.3</version>
+					<executions>
+						<execution>
+							<phase>process-resources</phase>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<minimize>${wro4j-minimize}</minimize>
+						<extraConfigFile>${basedir}/src/main/resources/org/hbhk/aili/${moduleName}/server/META-INF/wro.properties</extraConfigFile>
+						<wroManagerFactory>ro.isdc.wro.maven.plugin.manager.factory.ConfigurableWroManagerFactory</wroManagerFactory>
+						<cssDestinationFolder>${project.build.directory}/classes/org/hbhk/aili/${moduleName}/server/META-INF/styles/wro/</cssDestinationFolder>
+						<jsDestinationFolder>${project.build.directory}/classes/org/hbhk/aili/${moduleName}/server/META-INF/scripts/wro/</jsDestinationFolder>
+						<wroFile>${basedir}/src/main/resources/org/hbhk/aili/${moduleName}/server/META-INF/wro.xml</wroFile>
+						<groupNameMappingFile>${project.build.directory}/classes/org/hbhk/aili/${moduleName}/server/META-INF/wromapping.properties</groupNameMappingFile>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 </project>

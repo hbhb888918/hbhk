@@ -15,9 +15,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring-version>3.2.2.RELEASE</spring-version>
 		<security-version>3.1.4.RELEASE</security-version>
+		<moduleName>security</moduleName>
 	</properties>
 	<dependencies>
-	
+
 		<dependency>
 			<groupId>org.hbhk.aili</groupId>
 			<artifactId>aili-core</artifactId>
@@ -51,4 +52,12 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>ro.isdc.wro4j</groupId>
+				<artifactId>wro4j-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -2,6 +2,7 @@ package org.hbhk.aili.i18n.server.tag;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.jsp.JspContext;
 import javax.servlet.jsp.JspException;
@@ -19,6 +20,7 @@ public class I18nForJsTag extends SimpleTagSupport {
 	private MessageBundle messageBundle;
 	private String subModule;
 	private String groups;
+	private String contextPath;
 
 	@Override
 	public void setJspContext(JspContext pc) {
@@ -27,6 +29,7 @@ public class I18nForJsTag extends SimpleTagSupport {
 		ApplicationContext ctx = WebApplicationContextUtils
 				.getWebApplicationContext(pageContext.getServletContext());
 		messageBundle = (MessageBundle) ctx.getBean("messageBundle");
+		contextPath = pageContext.getServletContext().getContextPath();
 	}
 
 	/**
@@ -35,22 +38,22 @@ public class I18nForJsTag extends SimpleTagSupport {
 	@Override
 	public void doTag() throws JspException, IOException {
 		String moduleName = RequestContext.getCurrentContext().getModuleName();
-		// String[] groupArray = parseStringToArray(groups);
-
-		// String keys =
-		// messageBundle.getI18nKeys(moduleName+MessageCache.I18NKEYS);
-
-		Map<String, String> tags = TagsCache.getInstance().getTagesInfo(
-				moduleName);
+		String[] groupArray = parseStringToArray(groups);
+		Map<String, String> tags ;
+		if(groupArray.length==0){
+			tags = TagsCache.getInstance().getTagesInfo(moduleName);
+		}else{
+			tags = TagsCache.getInstance().getTagesInfo(moduleName, groupArray);
+		}
 		String keys = tags.get("keys");
 		getJspContext().getOut().write(createModuleScript(moduleName));
 		getJspContext().getOut().write(createI18nScript(moduleName, keys));
-		// if(groupArray.length!=0){
-		// for(String group : groupArray){
-		// getJspContext().getOut().write(createWroResourceUrl(moduleName,
-		// group));
-		// }
-		// }
+		if (groupArray.length != 0) {
+			for (String group : groupArray) {
+				getJspContext().getOut().write(
+						createWroResourceUrl(moduleName, group));
+			}
+		}
 	}
 
 	/**
@@ -120,6 +123,37 @@ public class I18nForJsTag extends SimpleTagSupport {
 		msgObject.append("} \n");
 		msgObject.append("</script>");
 		return msgObject.toString();
+	}
+
+	/**
+	 * 根据模块名称和资源名称查找文件
+	 */
+	private String createWroResourceUrl(String moduleName, String resource)
+			throws IOException {
+		StringBuilder wroResPropObject = new StringBuilder("");
+		Properties properties = WroResourcePropCache.getInstance()
+				.getWroResourceInfo(moduleName);
+		if (properties == null) {
+			return wroResPropObject.toString();
+		}
+		String resJs = properties.getProperty(resource + ".js");
+		String resCss = properties.getProperty(resource + ".css");
+		if (resCss != null && !resCss.endsWith("-0.css")) {
+			wroResPropObject
+					.append("<link rel='stylesheet' type='text/css' href='");
+			wroResPropObject.append(contextPath + "/styles/" + moduleName);
+			wroResPropObject.append("/wro/");
+			wroResPropObject.append(resCss);
+			wroResPropObject.append("'/> \n");
+		}
+		if (resJs != null && !resJs.endsWith("-0.js")) {
+			wroResPropObject.append("<script type='text/javascript' src='");
+			wroResPropObject.append(contextPath + "/scripts/" + moduleName);
+			wroResPropObject.append("/wro/");
+			wroResPropObject.append(resJs);
+			wroResPropObject.append("'></script> \n");
+		}
+		return wroResPropObject.toString();
 	}
 
 	/**

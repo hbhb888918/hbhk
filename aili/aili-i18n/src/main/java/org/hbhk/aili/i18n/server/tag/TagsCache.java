@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
@@ -163,9 +164,8 @@ public class TagsCache {
 			for(String group : groups){
 				BufferedReader br = null;
 				try {
-//					Properties wroProperties = WroResourcePropCache.getInstance().getWroResourceInfo(moduleName);
-//					group = wroProperties.getProperty(group+".js",group+".js");
-					
+					Properties wroProperties = WroResourcePropCache.getInstance().getWroResourceInfo(moduleName);
+					group = wroProperties.getProperty(group+".js",group+".js");
 					InputStream in = FileLoadUtil.getInputStreamForServletpath("/scripts/" + moduleName + "/**/"+group);
 					Pattern i18nPattern = Pattern.compile(TagsCache.I18N_STRING);
 					Pattern permPattern = Pattern.compile(TagsCache.PERM_STRING);
