@@ -87,13 +87,7 @@ public class MongoTemplate {
         return null;
     }
     /**
-     * 
      * <p>根据对象和对象名称命名对象id</p> 
-     * @author 平台开发小组
-     * @date 2013-4-3 上午9:31:14
-     * @param objectToSave
-     * @return
-     * @see
      */
     public ObjectId insert(Object objectToSave) {
         ensureNotIterable(objectToSave);
@@ -242,11 +236,6 @@ public class MongoTemplate {
    /**
     * 
     * <p>删除指定连接</p> 
-    * @author 平台开发小组
-    * @date 2013-4-1 上午10:40:38
-    * @param object
-    * @param collection
-    * @see
     */
     public void remove(Object object, String collection) {
 
@@ -270,13 +259,7 @@ public class MongoTemplate {
         dbcollection.remove(dboq);
     }
     /**
-     * 
      * <p>将对象转换成mongo BasicDBObject</p> 
-     * @author 平台开发小组
-     * @date 2013-4-1 上午10:41:27
-     * @param objectToSave
-     * @return
-     * @see
      */
     private BasicDBObject convert(Object objectToSave) {
         BasicDBObject dbDoc = new BasicDBObject();

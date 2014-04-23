@@ -4,12 +4,6 @@ import org.springframework.dao.DataAccessResourceFailureException;
 /**
  * 
  * 描述mongoDB数据库是否正常运行的异常
- * <p style="display:none">modifyRecord</p>
- * <p style="display:none">version:V1.0,author:ningyu,date:2013-3-28 下午4:09:17,content:TODO </p>
- * @author ningyu
- * @date 2013-3-28 下午4:09:17
- * @since
- * @version
  */
 public class CannotGetMongoDbConnectionException extends DataAccessResourceFailureException {
    //mongo用户名
