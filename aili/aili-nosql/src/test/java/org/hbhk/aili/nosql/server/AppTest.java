@@ -23,6 +23,7 @@ public class AppTest {
 		criteria.where("id").is("iiiiiiiiiiiii");
 		query.addCriteria(criteria);
 		Posts p1 = mongoOps.findOne(query, Posts.class);
+		mongoOps.createCollection("test");
 
 	}
 
