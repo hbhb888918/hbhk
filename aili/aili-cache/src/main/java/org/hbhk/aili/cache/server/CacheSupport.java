@@ -4,7 +4,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.cache.server.templet.ICacheTemplet;
 import org.hbhk.aili.cache.server.templet.impl.MemoryCacheTemplet;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 /**
