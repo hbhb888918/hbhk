@@ -47,7 +47,23 @@ public class QueryDocumentApp {
 	@Test
 	public void documents() {
 		// 获得document的集合
-		DBCursor cursor = collection.find();
+		DBCursor cursor = collection.find().skip(2);
+		while (cursor.hasNext()) {
+			System.out.println(cursor.next());
+		}
+	}
+	
+	@Test
+	public void documentsPage() {
+		// 获得document的集合
+		DBCursor cursor = collection.find().skip(2).limit(5);
+		int count = 0;
+		if(cursor.hasNext()){
+			count = 10;
+		}else{
+			 count = cursor.count();
+		}
+		
 		while (cursor.hasNext()) {
 			System.out.println(cursor.next());
 		}
