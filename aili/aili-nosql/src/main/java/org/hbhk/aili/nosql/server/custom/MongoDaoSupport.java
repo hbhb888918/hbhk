@@ -3,10 +3,12 @@ package org.hbhk.aili.nosql.server.custom;
 import org.hbhk.aili.nosql.share.util.PaginationUtil;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 
 public abstract class MongoDaoSupport {
 
@@ -39,6 +41,13 @@ public abstract class MongoDaoSupport {
 		DBCursor cursor = collection.find().skip(startIndex).limit(limit);
 		return cursor;
 	}
+	
+	public void insert(String name, int limit, int pageNo) {
+		DBCollection collection = dbConfig.getDBCollection(name);
+		CommandResult result = dbConfig.getDb().getLastError();
+		//collection.insert(n, WriteConcern.)
+	}
+	
 
 	public MongoDBConfig getDbConfig() {
 		return dbConfig;
