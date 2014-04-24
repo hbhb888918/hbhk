@@ -28,7 +28,7 @@ public class QueryDocumentApp {
 		for (String collectionName : collections) {
 			System.out.println(collectionName);
 		}
-		collection = db.getCollection("hbhk-c");
+		collection = db.getCollection("hbhk1");
 	}
 
 	@Test
