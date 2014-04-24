@@ -24,7 +24,7 @@ public class MongoDBConfig {
 	}
 
 
-	public DB getDB(String dbname) {
+	public DB getDb(String dbname) {
 		return mongo.getDB(dbname);
 	}
 

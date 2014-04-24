@@ -3,6 +3,7 @@ package org.hbhk.aili.nosql.server.custom;
 import org.hbhk.aili.nosql.share.util.PaginationUtil;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -27,16 +28,32 @@ public abstract class MongoDaoSupport {
 		DBCollection collection = dbConfig.getDBCollection(name);
 		DBObject object = new BasicDBObject();
 		object.put(id, new BasicDBObject("$gt", queryID));
-		DBCursor cursor = collection.find(object).sort(new BasicDBObject("id", 1))
-				.limit(limit);
+		DBCursor cursor = collection.find(object)
+				.sort(new BasicDBObject("id", 1)).limit(limit);
 		return cursor;
 	}
 
-	public DBCursor getDBCursor(String name,int limit, int pageNo) {
+	public DBCursor getDBCursor(String name, int limit, int pageNo) {
 		DBCollection collection = dbConfig.getDBCollection(name);
 		int startIndex = PaginationUtil.getStartIndex(pageNo, limit);
 		DBCursor cursor = collection.find().skip(startIndex).limit(limit);
 		return cursor;
+	}
+
+	public MongoDBConfig getDbConfig() {
+		return dbConfig;
+	}
+
+	public void setDbConfig(MongoDBConfig dbConfig) {
+		this.dbConfig = dbConfig;
+	}
+
+	public DB getDb() {
+		return dbConfig.getDb();
+	}
+
+	public DB getDb(String database) {
+		return dbConfig.getDb(database);
 	}
 
 }
