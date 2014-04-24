@@ -7,7 +7,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
-public class MongoDaoSupport {
+public abstract class MongoDaoSupport {
 
 	private MongoDBConfig dbConfig;
 
