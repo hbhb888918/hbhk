@@ -1,4 +1,4 @@
-package org.hbhk.aili.nosql.server.mongodb;
+package org.hbhk.aili.nosql.server.tx;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,7 +11,7 @@ import com.mongodb.DB;
  * 
  * 提供事务支持
  */
-class DbHolder extends ResourceHolderSupport {
+public class DbHolder extends ResourceHolderSupport {
     private static final Object DEFAULT_KEY = new Object();
     //存储mongo数据库连接配置
     private final Map<Object, DB> dbMap = new ConcurrentHashMap<Object, DB>();

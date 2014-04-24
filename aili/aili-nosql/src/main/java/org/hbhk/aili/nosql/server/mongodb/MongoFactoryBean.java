@@ -3,6 +3,7 @@ package org.hbhk.aili.nosql.server.mongodb;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hbhk.aili.nosql.share.ex.CannotGetMongoDbConnectionException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;

@@ -2,6 +2,8 @@ package org.hbhk.aili.nosql.server.mongodb;
 
 import java.net.UnknownHostException;
 
+import org.hbhk.aili.nosql.share.pojo.UserCredentials;
+import org.hbhk.aili.nosql.share.util.MongoDbUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.dao.DataAccessException;
 import org.springframework.util.Assert;

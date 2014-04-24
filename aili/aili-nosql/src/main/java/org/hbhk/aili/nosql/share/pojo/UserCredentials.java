@@ -1,4 +1,4 @@
-package org.hbhk.aili.nosql.server.mongodb;
+package org.hbhk.aili.nosql.share.pojo;
 
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;

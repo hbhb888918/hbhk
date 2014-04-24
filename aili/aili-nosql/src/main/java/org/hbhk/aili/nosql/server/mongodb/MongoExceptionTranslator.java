@@ -1,5 +1,6 @@
 package org.hbhk.aili.nosql.server.mongodb;
 
+import org.hbhk.aili.nosql.share.ex.UncategorizedMongoDbException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DuplicateKeyException;

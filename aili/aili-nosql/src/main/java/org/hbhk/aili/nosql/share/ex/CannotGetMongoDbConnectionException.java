@@ -1,4 +1,4 @@
-package org.hbhk.aili.nosql.server.mongodb;
+package org.hbhk.aili.nosql.share.ex;
 
 import org.springframework.dao.DataAccessResourceFailureException;
 /**
