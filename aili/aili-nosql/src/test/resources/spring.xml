@@ -18,8 +18,7 @@
 			http://www.springframework.org/schema/data/mongo
         	http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
 			">
-	<context:property-placeholder
-		location="classpath:mongo.properties" />
+	<context:property-placeholder location="classpath:mongo.properties" />
 
 	<mongo:mongo host="${mongo.host}" port="${mongo.port}">
 		<mongo:options connections-per-host="${mongo.connectionsPerHost}"
@@ -35,7 +34,12 @@
 	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
 		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
 	</bean>
-
-
-
+	
+	
+	<bean id="dbConfig" class="org.hbhk.aili.nosql.server.custom.MongoDBConfig">
+		<property name="database" value="hbhk" />
+	</bean>
+	<bean id="mongoDaoSupport" class="org.hbhk.aili.nosql.server.custom.MongoDaoSupport">
+		<property name="dbConfig" ref="dbConfig" />
+	</bean>
 </beans>

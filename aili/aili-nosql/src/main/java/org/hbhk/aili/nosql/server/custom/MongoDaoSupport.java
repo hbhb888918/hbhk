@@ -1,16 +1,21 @@
 package org.hbhk.aili.nosql.server.custom;
 
+import java.util.List;
+import java.util.Map;
+
+import org.hbhk.aili.nosql.share.pojo.DBBaseInfo;
+import org.hbhk.aili.nosql.share.util.CursorToJsonUtil;
 import org.hbhk.aili.nosql.share.util.PaginationUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
+import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
 
-public abstract class MongoDaoSupport {
+public class MongoDaoSupport {
 
 	private MongoDBConfig dbConfig;
 
@@ -27,27 +32,85 @@ public abstract class MongoDaoSupport {
 	 */
 	public DBCursor getDBCursor(String name, int limit, String id,
 			String queryID) {
-		DBCollection collection = dbConfig.getDBCollection(name);
 		DBObject object = new BasicDBObject();
 		object.put(id, new BasicDBObject("$gt", queryID));
-		DBCursor cursor = collection.find(object)
+		DBCursor cursor = getDBCollection(name).find(object)
 				.sort(new BasicDBObject("id", 1)).limit(limit);
 		return cursor;
 	}
 
+	public <T> List<T> getDBCursor(String name, int limit, String id,
+			String queryID, Class<? extends DBBaseInfo> clz) {
+		DBObject object = new BasicDBObject();
+		object.put(id, new BasicDBObject("$gt", queryID));
+		DBCursor cursor = getDBCollection(name).find(object)
+				.sort(new BasicDBObject("id", 1)).limit(limit);
+		return CursorToJsonUtil.getCursorToObj(cursor, clz);
+	}
+
 	public DBCursor getDBCursor(String name, int limit, int pageNo) {
-		DBCollection collection = dbConfig.getDBCollection(name);
 		int startIndex = PaginationUtil.getStartIndex(pageNo, limit);
-		DBCursor cursor = collection.find().skip(startIndex).limit(limit);
+		DBCursor cursor = getDBCollection(name).find().skip(startIndex)
+				.limit(limit);
 		return cursor;
 	}
-	
-	public void insert(String name, int limit, int pageNo) {
-		DBCollection collection = dbConfig.getDBCollection(name);
-		CommandResult result = dbConfig.getDb().getLastError();
-		//collection.insert(n, WriteConcern.)
+
+	public <T> List<T> getDBCursor(String name, int limit, int pageNo,
+			Class<? extends DBBaseInfo> clz) {
+		int startIndex = PaginationUtil.getStartIndex(pageNo, limit);
+		DBCursor cursor = getDBCollection(name).find().skip(startIndex)
+				.limit(limit);
+		return CursorToJsonUtil.getCursorToObj(cursor, clz);
 	}
-	
+
+	public void insert(Map<String, Object> docMap, String name) {
+		getDBCollection(name).insert(new BasicDBObject(docMap));
+	}
+
+	public void insert(List<DBObject> doclist, String name) {
+		getDBCollection(name).insert(doclist);
+	}
+
+	public void insert(String docJson, String name) {
+		DBObject dbObject = (DBObject) JSON.parse(docJson);
+		getDBCollection(name).insert(dbObject);
+	}
+
+	public void insert(BasicDBObject doc, String name) {
+		getDBCollection(name).insert(doc);
+	}
+
+	public void insert(BasicDBObjectBuilder docBuilder, String name) {
+		getDBCollection(name).insert(docBuilder.get());
+	}
+
+	public DBCursor queryIn(List<String> list, String q, String name) {
+		BasicDBObject query = new BasicDBObject();
+		query.put(q, new BasicDBObject("$in", list));
+		return getDBCollection(name).find(query);
+	}
+
+	public DBCursor queryGt(Integer num, String q, String name) {
+		BasicDBObject query = new BasicDBObject();
+		query.put(q, new BasicDBObject("$gt", num));
+		return getDBCollection(name).find(query);
+	}
+
+	public DBCursor queryLt(Integer num, String q, String name) {
+		BasicDBObject query = new BasicDBObject();
+		query.put(q, new BasicDBObject("$lt", num));
+		return getDBCollection(name).find(query);
+	}
+
+	public DBCursor queryGtToLt(Integer gt, Integer lt, String q, String name) {
+		BasicDBObject query = new BasicDBObject();
+		query.put(q, new BasicDBObject("$gt", gt).append("$lt", lt));
+		return getDBCollection(name).find(query);
+	}
+
+	public DBCollection getDBCollection(String name) {
+		return dbConfig.getDBCollection(name);
+	}
 
 	public MongoDBConfig getDbConfig() {
 		return dbConfig;

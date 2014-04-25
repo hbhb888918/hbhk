@@ -92,6 +92,7 @@ public class QueryDocumentApp {
 	}
 
 	// 大于 小于
+	@Test
 	public void gtTolt() {
 		BasicDBObject query = new BasicDBObject();
 		query.put("number", new BasicDBObject("$gt", 5).append("$lt", 8));

@@ -9,10 +9,9 @@ import com.mongodb.Mongo;
 public class MongoDBConfig {
 
 	private Mongo mongo;
-	private DB db;
 	private String host = "127.0.0.1";
 	private int port = 27017;
-	private String database ;
+	private String database;
 
 	public MongoDBConfig() throws UnknownHostException {
 		mongo = new Mongo(host, port);
@@ -29,7 +28,7 @@ public class MongoDBConfig {
 	}
 
 	public DBCollection getDBCollection(String name) {
-		return db.getCollection(name);
+		return getDb().getCollection(name);
 	}
 
 	public Mongo getMongo() {
@@ -42,10 +41,6 @@ public class MongoDBConfig {
 
 	public DB getDb() {
 		return mongo.getDB(database);
-	}
-
-	public void setDb(DB db) {
-		this.db = db;
 	}
 
 
