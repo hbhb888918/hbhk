@@ -18,6 +18,7 @@
 		<module>aili-orm</module>
 		<module>aili-esb</module>
 		<module>aili-nosql</module>
+		<module>aili-lock</module>
 	</modules>
 
 	<properties>
