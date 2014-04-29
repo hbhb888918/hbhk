@@ -3,6 +3,7 @@ package org.hbhk.aili.security.server.context;
 import org.hbhk.aili.security.share.pojo.UserInfo;
 
 
+
 public class UserContext {
 
     private static ThreadLocal<UserContext> context = new ThreadLocal<UserContext>(){
