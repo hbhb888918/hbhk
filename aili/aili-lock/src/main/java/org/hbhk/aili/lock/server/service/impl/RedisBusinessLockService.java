@@ -46,25 +46,21 @@ public class RedisBusinessLockService implements IBusinessLockService {
 		}
 		String key = mutex.getType().getPrefix() + mutex.getBusinessNo();
 		String value = mutex.getBusinessDesc();
-
 		try {
-
 			long nano = System.nanoTime();
-
 			do {
 				LOGGER.debug("try lock key: " + key);
-				Jedis jedis = null;
 				// 使用setnx模拟锁
-				Long i = jedis.setnx(key, value);
-				redisCacheTemplet.set(key, value, mutex.getTtl());
-				if (i == 1) { // setnx成功，获得锁
-					jedis.expire(key, mutex.getTtl());
+				boolean success = redisCacheTemplet.setNX(key, value,
+						mutex.getTtl());
+				// setnx成功，获得锁
+				if (success) {
 					LOGGER.debug("get lock, key: " + key + " , expire in "
 							+ mutex.getTtl() + " seconds.");
 					return true;
 				} else { // 存在锁
 					if (LOGGER.isDebugEnabled()) {
-						String desc = jedis.get(key);
+						String desc = redisCacheTemplet.get(key);
 						LOGGER.debug("key: " + key
 								+ " locked by another business：" + desc);
 					}
@@ -81,13 +77,9 @@ public class RedisBusinessLockService implements IBusinessLockService {
 			// 得不到锁，返回失败
 			return false;
 
-		} catch (JedisConnectionException je) {
-			LOGGER.error(je.getMessage(), je);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-		} finally {
 		}
-
 		// 锁不再作为业务的的强制必要条件
 		// 发生REDIS异常，则不再处理锁
 		return true;
@@ -227,7 +219,7 @@ public class RedisBusinessLockService implements IBusinessLockService {
 			String key = mutex.getType().getPrefix() + mutex.getBusinessNo();
 			keys.add(key);
 		}
-		redisCacheTemplet.invalid(keys.toArray(new String[] {}));
+		redisCacheTemplet.invalid(keys.toArray(new String[keys.size()]));
 
 	}
 
