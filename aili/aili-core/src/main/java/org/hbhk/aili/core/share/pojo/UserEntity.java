@@ -1,4 +1,4 @@
-package org.hbhk.aili.core.share.domain;
+package org.hbhk.aili.core.share.pojo;
 
 import java.io.Serializable;
 
