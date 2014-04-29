@@ -3,6 +3,8 @@ package org.hbhk.aili.cache.server;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.hbhk.aili.cache.share.ex.CacheConfigException;
+
 
 /**
  * 缓存管理器
@@ -58,10 +60,10 @@ public final class CacheManager {
 	 * @since:
 	 */
 	@SuppressWarnings("unchecked")
-	public <K,V> ICache<K, V> getCache(String cacheId) throws Exception {
+	public <K,V> ICache<K, V> getCache(String cacheId) throws CacheConfigException {
 		ICache<K, V> cache = uuidCaches.get(cacheId);
 		if (cache == null) {
-			throw new Exception("CacheId:["+cacheId+"]");
+			throw new CacheConfigException("CacheId:["+cacheId+"]");
 		}
 		return cache;
 	}
@@ -75,11 +77,11 @@ public final class CacheManager {
 	 * @see
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public <T> T getCache(Class t,String cacheId) throws Exception {
+	public <T> T getCache(Class t,String cacheId)  {
 		try {
 			return (T) getCache(cacheId);
 		} catch(ClassCastException e) {
-			throw new Exception("CacheId:["+cacheId+"] to Class:["+t.getName()+"]");
+			throw new CacheConfigException("CacheId:["+cacheId+"] to Class:["+t.getName()+"]");
 		}
 	}
 
