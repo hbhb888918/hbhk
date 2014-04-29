@@ -32,6 +32,7 @@ public class UserService implements IUserService {
 		if (userInfo != null) {
 			UserContext.setCurrentUser(userInfo);
 			UserContext.setCurrentUserName(username);
+			//设置session
 			RequestContext.setSessionAttribute(UserConstants.CURRENT_USER_NAME, username);
 			return true;
 		}

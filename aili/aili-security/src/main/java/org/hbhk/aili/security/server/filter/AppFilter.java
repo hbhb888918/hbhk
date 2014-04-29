@@ -10,9 +10,15 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hbhk.aili.cache.server.CacheManager;
+import org.hbhk.aili.cache.server.ICache;
 import org.hbhk.aili.core.server.context.RequestContext;
 import org.hbhk.aili.core.share.consts.Protocol;
+import org.hbhk.aili.security.server.cache.UserCache;
 import org.hbhk.aili.security.server.context.UserContext;
+import org.hbhk.aili.security.share.define.UserConstants;
+import org.hbhk.aili.security.share.pojo.UserInfo;
 
 public class AppFilter implements Filter {
 
@@ -45,6 +51,17 @@ public class AppFilter implements Filter {
 				/** 将当前访问的路径和远程头信息放入权限上下文 **/
 				RequestContext.setCurrentContext(remoteReqMethod, remoteReqURL,
 						request.getRemoteAddr());
+
+				String username = (String) sreq.getSession().getAttribute(
+						UserConstants.CURRENT_USER_NAME);
+
+				if (StringUtils.isNotEmpty(username)) {
+					ICache<String, UserInfo> usercCache = CacheManager
+							.getInstance().getCache(UserCache.cacheID);
+					UserInfo user = usercCache.get(username);
+					UserContext.setCurrentUser(user);
+					UserContext.setCurrentUserName(username);
+				}
 
 				// String localeLanguage = sreq
 				// .getParameter(LocaleConst.KEY_LOCALE_LANGUAGE);
