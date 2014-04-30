@@ -35,22 +35,22 @@ public class LoginLimitInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 		// 只处理登陆是不对的，如果是允许重复登陆，且把上一次踢掉
-		String doLogin = request.getParameter("doLogin");
-		boolean isDoLogin = false;
+		String loginName = request.getParameter("username");
 		String currentTimeMillis = null;
-		if (StringUtils.isNotEmpty(doLogin)) {
-			isDoLogin = Boolean.parseBoolean(doLogin);
-			if (isDoLogin) {
-				currentTimeMillis = String.valueOf(System.currentTimeMillis());
-				LoginLimitContext.setSessionId(currentTimeMillis);
-			}
+		if (StringUtils.isNotEmpty(loginName)) {
+			currentTimeMillis = String.valueOf(System.currentTimeMillis());
+			LoginLimitContext.setSessionId(currentTimeMillis);
 		}
 		// 获取登陆用户
-		String loginName = request.getParameter("loginName");
 		String userName = UserContext.getCurrentContext().getCurrentUserName();
 		if (StringUtils.isEmpty(loginName) && StringUtils.isNotEmpty(userName)) {
 			loginName = userName;
 		}
+		// 用户不是登陆操作
+		if (StringUtils.isEmpty(loginName)) {
+			return true;
+		}
+
 		// 从缓存中获取csessionID
 		LoginLimitCache cache = WebApplicationContextHolder
 				.getWebApplicationContext().getBean("loginLimitCache",
@@ -64,7 +64,7 @@ public class LoginLimitInterceptor extends HandlerInterceptorAdapter {
 		cloginLimit = cache.get(loginName);
 
 		// 用户从未登陆 跳过
-		if (StringUtils.isEmpty(loginName) && StringUtils.isEmpty(cloginLimit)) {
+		if (StringUtils.isEmpty(cloginLimit)) {
 			return true;
 		}
 
@@ -82,9 +82,6 @@ public class LoginLimitInterceptor extends HandlerInterceptorAdapter {
 				isjsessionID = false;
 			}
 		}
-		if(StringUtils.isEmpty(loginLimit)){
-			return true;
-		}
 		// 2 只允许一次登陆
 		if (userName == null && strategy == 2
 				&& StringUtils.isNotEmpty(cloginLimit)) {
@@ -97,7 +94,7 @@ public class LoginLimitInterceptor extends HandlerInterceptorAdapter {
 				throw new BusinessException("4002", "您已经在别处登陆,请重新登陆");
 			}
 		}
-		if (isDoLogin) {
+		if (StringUtils.isNotEmpty(loginName) && StringUtils.isNotEmpty(currentTimeMillis)) {
 			cloginLimit = currentTimeMillis;
 		}
 		Cookie cookieres = new Cookie("loginLimit", cloginLimit);
