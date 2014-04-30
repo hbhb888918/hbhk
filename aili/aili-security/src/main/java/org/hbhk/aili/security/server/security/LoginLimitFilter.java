@@ -76,7 +76,13 @@ public class LoginLimitFilter implements Filter {
 			return;
 		}
 		String cloginLimit = null;
-		cloginLimit = cache.get(loginName);
+		try {
+			cloginLimit = cache.get(loginName);
+		} catch (Exception e) {
+			chain.doFilter(request, response);
+			return;
+		}
+		
 
 		// 用户从未登陆 跳过
 		if (StringUtils.isEmpty(loginName) && StringUtils.isEmpty(cloginLimit)) {

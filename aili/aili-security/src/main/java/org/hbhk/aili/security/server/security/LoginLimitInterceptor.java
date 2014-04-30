@@ -61,7 +61,13 @@ public class LoginLimitInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 		String cloginLimit = null;
-		cloginLimit = cache.get(loginName);
+		try {
+			cloginLimit = cache.get(loginName);
+		} catch (Exception e) {
+			log.warn(e.getMessage(), e);
+			return true;
+		}
+		
 
 		// 用户从未登陆 跳过
 		if (StringUtils.isEmpty(cloginLimit)) {
