@@ -1,5 +1,7 @@
 package org.hbhk.aili.lock.server.service.impl;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hbhk.aili.lock.server.dao.IBusinessLockDao;
@@ -44,7 +46,7 @@ public final class DbLockStoreScanner extends Thread implements InitializingBean
 		while(!stopFlag){
 			try {
 				businessLockDao.delTimeoutData();
-				Thread.sleep(scannerInterval);
+				TimeUnit.MILLISECONDS.sleep(scannerInterval);
 			} catch (InterruptedException e) {
 				log.error("",e);
 			}
