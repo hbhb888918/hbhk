@@ -18,7 +18,7 @@ public final class DbLockStoreScanner extends Thread implements InitializingBean
 	/**
 	 * 扫描间隔（毫秒）
 	 */
-	private int scannerInterval =1000*60*5;
+	private int scannerInterval = 60*5;
 
 	private IBusinessLockDao businessLockDao;
 
@@ -46,7 +46,7 @@ public final class DbLockStoreScanner extends Thread implements InitializingBean
 		while(!stopFlag){
 			try {
 				businessLockDao.delTimeoutData();
-				TimeUnit.MILLISECONDS.sleep(scannerInterval);
+				TimeUnit.SECONDS.sleep(scannerInterval);
 			} catch (InterruptedException e) {
 				log.error("",e);
 			}
