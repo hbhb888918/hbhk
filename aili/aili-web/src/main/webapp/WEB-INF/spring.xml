@@ -16,6 +16,7 @@
 			http://www.springframework.org/schema/aop 
 			http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
+	<context:property-placeholder location="/WEB-INF/config.properties" />
 	<!-- 数据源 jndi方式 -->
 	<bean id="dataSourceSpied" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName">
@@ -88,6 +89,11 @@
 		</property>
 	</bean>
 
+	<bean id="loginLimitCache"  class="org.hbhk.aili.security.server.cache.LoginLimitCache">
+		<property name="exp" value="500"/>
+		<property name="strategy" value="3"/>
+		<property name="storage" ref="redisCacheTemplet"/>
+	</bean>
 	<context:component-scan base-package="org.hbhk.aili.core.server">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
