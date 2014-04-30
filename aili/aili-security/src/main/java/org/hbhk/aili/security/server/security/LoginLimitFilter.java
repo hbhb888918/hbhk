@@ -38,6 +38,12 @@ public class LoginLimitFilter implements Filter {
 		HttpServletRequest servletRequest = (HttpServletRequest) request;
 		HttpServletResponse servletResponse = (HttpServletResponse) response;
 		String url = RequestContext.getCurrentContext().getRemoteRequestURL();
+		if(url.equals("/security/logout.ctrl")){
+			Cookie cookieres = new Cookie("loginLimit", null);
+			servletResponse.addCookie(cookieres);
+			chain.doFilter(request, response);
+			return;
+		}
 		if (checkUrl(url)) {
 			chain.doFilter(request, response);
 			return;
@@ -92,6 +98,10 @@ public class LoginLimitFilter implements Filter {
 				loginLimit = cookie.getValue();
 				isjsessionID = false;
 			}
+		}
+		if(StringUtils.isEmpty(loginLimit)){
+			chain.doFilter(request, response);
+			return;
 		}
 		// 2 只允许一次登陆
 		if (userName == null && strategy == 2

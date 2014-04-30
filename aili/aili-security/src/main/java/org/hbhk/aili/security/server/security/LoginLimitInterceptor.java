@@ -26,6 +26,11 @@ public class LoginLimitInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		String url = RequestContext.getCurrentContext().getRemoteRequestURL();
+		if(url.equals("/security/logout.ctrl")){
+			Cookie cookieres = new Cookie("loginLimit", null);
+			response.addCookie(cookieres);
+			return true;
+		}
 		if (checkUrl(url)) {
 			return true;
 		}
@@ -76,6 +81,9 @@ public class LoginLimitInterceptor extends HandlerInterceptorAdapter {
 				loginLimit = cookie.getValue();
 				isjsessionID = false;
 			}
+		}
+		if(StringUtils.isEmpty(loginLimit)){
+			return true;
 		}
 		// 2 只允许一次登陆
 		if (userName == null && strategy == 2
