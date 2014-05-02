@@ -41,10 +41,6 @@ public class OffsetLimitInterceptor implements Interceptor {
 
     /**
      * 拦截分页请求，使用方言将原sql转化成分页sql processIntercept
-     * 
-     * @param queryArgs
-     * @return void
-     * @since:0.6
      */
     void processIntercept(final Object[] queryArgs) {
         // queryArgs = query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler)
@@ -91,14 +87,7 @@ public class OffsetLimitInterceptor implements Interceptor {
     }
 
     /**
-     * 
      * <p>获取MappedStatement</p> 
-     * @author 平台开发小组
-     * @date 2013-4-3 上午11:59:03
-     * @param ms
-     * @param newSqlSource
-     * @return
-     * @see
      */
     private MappedStatement copyFromMappedStatement(MappedStatement ms, SqlSource newSqlSource) {
         Builder builder =
@@ -132,12 +121,7 @@ public class OffsetLimitInterceptor implements Interceptor {
         return Plugin.wrap(target, this);
     }
     /**
-     * 
      * <p>设置方言</p> 
-     * @author 平台开发小组
-     * @date 2013-4-3 上午11:59:45
-     * @param properties 
-     * @see org.apache.ibatis.plugin.Interceptor#setProperties(java.util.Properties)
      */
     public void setProperties(Properties properties) {
         String dialectClass = new PropertiesHelper(properties).getRequiredString("dialectClass");
@@ -148,14 +132,7 @@ public class OffsetLimitInterceptor implements Interceptor {
         }
     }
     /**
-     * 
      * 设置分页boundsql
-     * <p style="display:none">modifyRecord</p>
-     * <p style="display:none">version:V1.0,author:ningyu,date:2013-4-3 下午12:00:09,content:TODO </p>
-     * @author 平台开发小组
-     * @date 2013-4-3 下午12:00:09
-     * @since
-     * @version
      */
     public static class BoundSqlSqlSource implements SqlSource {
         private BoundSql boundSql;
